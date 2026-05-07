@@ -5,7 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>プライバシーポリシー｜きもの日和</title>
+    <link rel="icon" type="image/png" href="assets/images/logo01.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Noto+Serif+JP:wght@500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+         :root {
+            --washi: #FCF9F0;
+            --amber: #6C2F00;
+            --amber-dark: #4A1F00;
+            --line-soft: rgba(108, 47, 0, 0.08);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,36 +24,100 @@
         }
         
         body {
-            font-family: 'Hiragino Mincho ProN', 'Yu Mincho', Georgia, serif;
-            background: #faf8f5;
+            font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
+            background: var(--washi);
             color: #3a2e28;
             line-height: 1.9;
         }
         
-        header {
-            background: #fff;
-            border-bottom: 1px solid #e8e0d6;
-            padding: 32px 24px;
-            text-align: center;
+        .container {
+            width: 100%;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 32px;
+            position: relative;
         }
         
-        header h1 {
-            font-size: 1.3rem;
-            letter-spacing: 0.15em;
-            color: #5c4a3a;
-            font-weight: normal;
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 18px 0;
+            transition: all .4s cubic-bezier(.4, 0, .2, 1);
         }
         
-        header p {
-            font-size: 0.8rem;
-            color: #9e8e80;
-            margin-top: 6px;
-            letter-spacing: 0.05em;
+        nav.scrolled {
+            background: rgba(252, 249, 240, 0.92);
+            backdrop-filter: blur(16px) saturate(1.2);
+            -webkit-backdrop-filter: blur(16px) saturate(1.2);
+            padding: 12px 0;
+            box-shadow: 0 1px 0 var(--line-soft), 0 8px 24px -16px rgba(108, 47, 0, .1);
+        }
+        
+        nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--amber);
+        }
+        
+        .nav-logo img {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            transition: transform .4s;
+        }
+        
+        .nav-logo:hover img {
+            transform: rotate(-6deg);
+        }
+        
+        .nav-logo-text {
+            font-family: 'Shippori Mincho', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--amber);
+        }
+        
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--amber);
+            color: white;
+            padding: 11px 24px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-size: 0.86rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            transition: all .3s;
+            box-shadow: 0 2px 0 var(--amber-dark), 0 6px 16px -4px rgba(108, 47, 0, .3);
+        }
+        
+        .nav-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 0 var(--amber-dark), 0 10px 24px -4px rgba(108, 47, 0, .4);
+        }
+        
+        .nav-cta svg {
+            width: 14px;
+            height: 14px;
         }
         
         main {
             max-width: 720px;
-            margin: 48px auto;
+            margin: 120px auto 48px;
             padding: 0 24px 80px;
         }
         
@@ -101,12 +176,41 @@
         }
         
         footer {
-            text-align: center;
+            background: var(--amber-dark);
+            padding: 32px 0;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 0.8rem;
-            color: #9e8e80;
-            padding: 32px 24px;
-            border-top: 1px solid #e8e0d6;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        footer a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color .2s;
+        }
+        
+        footer a:hover {
+            color: white;
+        }
+        
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Shippori Mincho', serif;
+        }
+        
+        .footer-brand img {
+            width: 24px;
+            height: 24px;
         }
         
         .updated {
@@ -115,15 +219,37 @@
             color: #9e8e80;
             margin-bottom: 32px;
         }
+        
+        @media (max-width: 600px) {
+            nav .nav-logo-text {
+                font-size: 1.1rem;
+            }
+            nav .nav-logo img {
+                width: 36px;
+                height: 36px;
+            }
+            .nav-cta {
+                padding: 8px 14px;
+                font-size: 0.78rem;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <header>
-        <h1>プライバシーポリシー</h1>
-        <p>きもの日和</p>
-    </header>
+    <nav id="nav">
+        <div class="container">
+            <a href="index.html" class="nav-logo">
+                <img src="assets/images/logo01.png" alt="きもの日和">
+                <span class="nav-logo-text">きもの日和</span>
+            </a>
+            <a href="index.html#cta" class="nav-cta">
+                アプリをダウンロード
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+        </div>
+    </nav>
 
     <main>
         <p class="updated">制定日：2025年3月14日　最終更新日：2026年3月23日</p>
@@ -204,8 +330,27 @@
     </main>
 
     <footer>
-        © 2026 きもの日和
+        <div class="container">
+            <div class="footer-brand">
+                <img src="assets/images/logo01.png" alt="">
+                <span>きもの日和</span>
+            </div>
+            <div>
+                <a href="privacy_policy.html">プライバシーポリシー</a> &nbsp;&nbsp;|&nbsp;&nbsp;
+                <span>© 2026 みのりび合同会社</span>
+            </div>
+        </div>
     </footer>
+
+    <script>
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        }, {
+            passive: true
+        });
+    </script>
 
 </body>
 

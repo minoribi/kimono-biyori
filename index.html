@@ -2,1912 +2,2613 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>きもの日和 | あなたの着物ライフをもっと楽しく、もっと自由に</title>
-    <meta name="description" content="きもの日和は、手持ちの着物をデジタル管理し、コーディネートをシミュレーションできる着物好きのためのアプリです。AIコーデ提案・着用記録・全国着物店検索も。無料で使えます。">
-    <meta property="og:title" content="きもの日和 | 着物コーディネートアプリ">
-    <meta property="og:description" content="手持ちの着物・帯・小物を写真で登録し、スマホの上でコーディネートをシミュレーション。AIコーデ提案や着用記録も残せる無料アプリです。">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>きもの日和 — 手持ちの着物を、迷わず一着に。</title>
+    <meta name="description" content="手持ちの着物・帯・小物を写真で登録して、スマホの上でコーディネート。AIがあなたにぴったりの一着を見つけてくれる着物管理アプリ「きもの日和」。" />
+    <link rel="icon" type="image/png" href="assets/images/logo01.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Noto+Serif+JP:wght@500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        /* Tweakable defaults — host rewrites this block in place */
+        window.TWEAKS = /*EDITMODE-BEGIN*/ {
+            "decorIntensity": 1,
+            "accent": "amber",
+            "character": "character_spring_1",
+            "heroLayout": "overlap",
+            "showDemo": true
+        } /*EDITMODE-END*/ ;
+    </script>
+
     <style>
          :root {
-            --ink: #4F3420;
-            --ink-soft: rgba(79, 52, 32, 0.72);
-            --ink-faint: rgba(79, 52, 32, 0.48);
-            --paper: #FAF7F3;
-            --paper-warm: #F5EFE4;
-            --clay: #8B4513;
-            --clay-light: #B87040;
-            --clay-deep: #5C2D0A;
-            --indigo: #2d4a6e;
-            --indigo-light: #5a7da6;
-            --sage: #6B8C6E;
-            --sage-light: #a3b89a;
-            --gold: #C9A84C;
-            --gold-light: #dfc87a;
-            --plum: #7a4a6a;
-            --mist: #FAF7F3;
-            --shadow-sm: 0 4px 16px rgba(79, 52, 32, 0.06);
-            --shadow-md: 0 12px 32px rgba(79, 52, 32, 0.10);
-            --shadow-lg: 0 24px 60px rgba(79, 52, 32, 0.14);
-            --radius-xl: 32px;
-            --radius-lg: 24px;
-            --radius-md: 18px;
-            --radius-sm: 12px;
-            --content: 1120px;
-            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            /* === 時の琥珀 palette === */
+            --washi: #FCF9F0;
+            /* 和紙色 - base bg */
+            --washi-soft: #FAF4E4;
+            /* warm washi */
+            --washi-cream: #F6EDD6;
+            /* cream section */
+            --amber: #6C2F00;
+            /* 深い琥珀茶 - main */
+            --amber-dark: #4A1F00;
+            --amber-mid: #8A4418;
+            --amber-light: #A05A35;
+            --gold: #C4956A;
+            --gold-deep: #A07840;
+            --yamabuki: #D4B56A;
+            /* 山吹 */
+            --yamabuki-light: #E8D4A0;
+            --yamabuki-pale: #F5E8C8;
+            --ink: #2B1A10;
+            /* deep text */
+            --ink-mid: #4D362A;
+            --ink-light: #7A6556;
+            --ink-soft: #9B8A7C;
+            --line: rgba(108, 47, 0, 0.14);
+            --line-soft: rgba(108, 47, 0, 0.08);
         }
         
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
         
         html {
             scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
         }
         
         body {
-            font-family: 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif;
+            font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
+            font-weight: 400;
             color: var(--ink);
-            background: var(--paper);
-            line-height: 1.8;
+            background: var(--washi);
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
             overflow-x: hidden;
+            line-height: 1.75;
+            letter-spacing: 0.02em;
         }
         
-        .serif {
-            font-family: 'Shippori Mincho', 'Hiragino Mincho ProN', serif;
+        .mincho {
+            font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
         }
         
-        img {
-            max-width: 100%;
-            display: block;
-        }
-        
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-        /* ── 和柄背景 ── */
-        
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M40 0L80 40L40 80L0 40Z' fill='none' stroke='%23c9a84c' stroke-width='0.3' opacity='0.12'/%3E%3Cpath d='M40 10L70 40L40 70L10 40Z' fill='none' stroke='%23c9a84c' stroke-width='0.2' opacity='0.08'/%3E%3C/svg%3E");
-            mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(ellipse at 15% 5%, rgba(181, 96, 58, 0.12), transparent 35%), radial-gradient(ellipse at 85% 8%, rgba(45, 74, 110, 0.10), transparent 30%), radial-gradient(ellipse at 50% 95%, rgba(111, 132, 100, 0.08), transparent 35%);
-            pointer-events: none;
-            z-index: -1;
-        }
-        /* ── レイアウト ── */
-        
-        .wrap {
-            width: min(calc(100% - 48px), var(--content));
+        .container {
+            width: 100%;
+            max-width: 1180px;
             margin: 0 auto;
+            padding: 0 32px;
+            position: relative;
         }
-        /* ── ヘッダー ── */
+        /* ================================================== */
+        /*  NAV                                               */
+        /* ================================================== */
         
-        .site-header {
-            position: sticky;
+        nav {
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
-            backdrop-filter: blur(24px) saturate(1.8);
-            -webkit-backdrop-filter: blur(24px) saturate(1.8);
-            background: rgba(250, 246, 240, 0.78);
-            border-bottom: 1px solid rgba(26, 19, 13, 0.06);
-            transition: box-shadow 0.4s ease;
+            padding: 18px 0;
+            transition: all .4s cubic-bezier(.4, 0, .2, 1);
         }
         
-        .site-header.scrolled {
-            box-shadow: 0 4px 32px rgba(40, 22, 10, 0.08);
+        nav.scrolled {
+            background: rgba(252, 249, 240, 0.92);
+            backdrop-filter: blur(16px) saturate(1.2);
+            -webkit-backdrop-filter: blur(16px) saturate(1.2);
+            padding: 12px 0;
+            box-shadow: 0 1px 0 var(--line-soft), 0 8px 24px -16px rgba(108, 47, 0, .1);
         }
         
-        .header-inner {
+        nav .container {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
-            padding: 14px 0;
         }
         
-        .brand {
+        .nav-logo {
             display: flex;
             align-items: center;
-            gap: 14px;
-            transition: transform 0.3s var(--ease-out);
+            gap: 12px;
+            text-decoration: none;
+            color: var(--amber);
         }
         
-        .brand:hover {
-            transform: scale(1.02);
-        }
-        
-        .brand-logo {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, rgba(181, 96, 58, 0.14), rgba(191, 154, 67, 0.10));
-            border: 1px solid rgba(181, 96, 58, 0.12);
-            box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        .nav-logo img {
+            width: 44px;
+            height: 44px;
             object-fit: contain;
-            padding: 5px;
+            transition: transform .4s;
         }
         
-        .brand-text strong {
-            display: block;
-            font-size: 1.15rem;
-            letter-spacing: 0.1em;
+        .nav-logo:hover img {
+            transform: rotate(-6deg);
+        }
+        
+        .nav-logo-text {
             font-family: 'Shippori Mincho', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--amber);
         }
         
-        .brand-text span {
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--amber);
+            color: white;
+            padding: 11px 24px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-size: 0.86rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            transition: all .3s;
+            box-shadow: 0 2px 0 var(--amber-dark), 0 6px 16px -4px rgba(108, 47, 0, .3);
+        }
+        
+        .nav-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 0 var(--amber-dark), 0 10px 24px -4px rgba(108, 47, 0, .4);
+        }
+        
+        .nav-cta svg {
+            width: 14px;
+            height: 14px;
+        }
+        /* ================================================== */
+        /*  HERO                                              */
+        /* ================================================== */
+        
+        .hero {
+            position: relative;
+            padding: 140px 0 120px;
+            background: radial-gradient(ellipse 900px 600px at 85% 20%, rgba(212, 181, 106, 0.18), transparent 60%), radial-gradient(ellipse 700px 500px at 10% 80%, rgba(245, 232, 200, 0.45), transparent 60%), var(--washi);
+            overflow: hidden;
+        }
+        /* Paper texture on hero */
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle at 20% 30%, rgba(108, 47, 0, .015) 1px, transparent 1.5px), radial-gradient(circle at 70% 60%, rgba(108, 47, 0, .018) 1px, transparent 1.5px);
+            background-size: 48px 48px, 72px 72px;
+            pointer-events: none;
+        }
+        
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1.05fr 1fr;
+            gap: 48px;
+            align-items: center;
+            min-height: 620px;
+        }
+        
+        .hero-decor {
+            position: absolute;
+            pointer-events: none;
+            user-select: none;
+            transition: opacity .4s;
+        }
+        /* Hero decorations */
+        
+        .decor-fan-top {
+            width: 280px;
+            top: 70px;
+            right: 38%;
+            opacity: calc(0.75 * var(--decor, 1));
+            transform: rotate(-8deg);
+            filter: drop-shadow(0 8px 20px rgba(108, 47, 0, .08));
+            z-index: 3;
+        }
+        
+        .decor-flower-1 {
+            width: 90px;
+            top: 110px;
+            left: 4%;
+            opacity: calc(0.78 * var(--decor, 1));
+            transform: rotate(-20deg);
+        }
+        
+        .decor-flower-2 {
+            width: 60px;
+            top: 48%;
+            left: 42%;
+            opacity: calc(0.65 * var(--decor, 1));
+        }
+        
+        .decor-petals-1 {
+            width: 180px;
+            top: 18%;
+            left: 28%;
+            opacity: calc(0.7 * var(--decor, 1));
+            transform: rotate(15deg);
+        }
+        
+        .decor-petals-2 {
+            width: 150px;
+            bottom: 80px;
+            left: 2%;
+            opacity: calc(0.6 * var(--decor, 1));
+            transform: rotate(-40deg) scaleX(-1);
+        }
+        
+        .decor-tassel {
+            width: 110px;
+            top: 32%;
+            left: 52%;
+            opacity: calc(0.75 * var(--decor, 1));
+            z-index: 3;
+            filter: drop-shadow(0 6px 14px rgba(108, 47, 0, .1));
+        }
+        
+        .hero-text {
+            position: relative;
+            z-index: 4;
+        }
+        
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Shippori Mincho', serif;
+            font-size: 0.82rem;
+            letter-spacing: 0.35em;
+            color: var(--amber);
+            margin-bottom: 28px;
+            padding-left: 0;
+        }
+        
+        .hero-eyebrow::before,
+        .hero-eyebrow::after {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--amber);
+            opacity: 0.5;
+        }
+        
+        .hero-eyebrow::after {
+            display: none;
+        }
+        
+        h1.hero-title {
+            font-family: 'Shippori Mincho', serif;
+            font-size: clamp(2.4rem, 4.2vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.45;
+            letter-spacing: 0.04em;
+            color: var(--ink);
+            margin-bottom: 32px;
+        }
+        
+        h1.hero-title .highlight {
+            color: var(--amber);
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1.hero-title .highlight::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -4px;
+            height: 6px;
+            background: var(--yamabuki-light);
+            opacity: 0.5;
+            z-index: -1;
+            border-radius: 4px;
+        }
+        
+        .hero-desc {
+            font-size: 1rem;
+            line-height: 2;
+            color: var(--ink-mid);
+            margin-bottom: 40px;
+            max-width: 480px;
+        }
+        
+        .store-btns {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-store {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--ink);
+            color: white;
+            padding: 12px 22px 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all .25s;
+            border: 1px solid var(--ink);
+            min-width: 212px;
+        }
+        
+        .btn-store:hover {
+            background: var(--amber-dark);
+            border-color: var(--amber-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px -8px rgba(108, 47, 0, .4);
+        }
+        
+        .btn-store svg {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+        
+        .btn-store-txt {
+            line-height: 1.2;
+            text-align: left;
+        }
+        
+        .btn-store-txt .small {
             display: block;
-            font-size: 0.76rem;
-            color: var(--ink-faint);
+            font-size: 0.65rem;
+            opacity: .8;
+            font-weight: 400;
             letter-spacing: 0.06em;
         }
         
-        .nav {
+        .btn-store-txt .big {
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        /* === hero visual: phone + character + kimono === */
+        
+        .hero-visual {
+            position: relative;
+            height: 620px;
+            z-index: 2;
+        }
+        
+        .hero-kimono-bg {
+            position: absolute;
+            width: 380px;
+            left: -10px;
+            top: 30px;
+            opacity: 0.88;
+            z-index: 1;
+            filter: drop-shadow(0 20px 40px rgba(108, 47, 0, .08));
+        }
+        
+        .hero-character {
+            position: absolute;
+            width: 380px;
+            right: -30px;
+            bottom: -40px;
+            z-index: 3;
+            filter: drop-shadow(0 10px 24px rgba(108, 47, 0, .15));
+            animation: charFloat 6s ease-in-out infinite;
+        }
+        
+        @keyframes charFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+        /* Phone mockup */
+        
+        .phone {
+            position: absolute;
+            width: 260px;
+            height: 540px;
+            left: 30%;
+            top: 30px;
+            background: #1a1510;
+            border-radius: 40px;
+            padding: 8px;
+            box-shadow: 0 2px 0 rgba(255, 255, 255, .08) inset, 0 30px 60px -10px rgba(108, 47, 0, .28), 0 20px 40px -12px rgba(0, 0, 0, .2);
+            z-index: 2;
+            animation: phoneFloat 7s ease-in-out infinite;
+        }
+        
+        @keyframes phoneFloat {
+            0%,
+            100% {
+                transform: translateY(0) rotate(-1.5deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(-0.5deg);
+            }
+        }
+        
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: var(--washi);
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .phone-notch {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 22px;
+            background: #1a1510;
+            border-radius: 20px;
+            z-index: 10;
+        }
+        /* phone UI (closet) */
+        
+        .ui-status {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            justify-content: flex-end;
+            justify-content: space-between;
+            padding: 12px 18px 6px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--ink);
         }
         
-        .nav a:not(.btn) {
-            font-size: 0.9rem;
-            color: var(--ink-soft);
-            padding: 8px 14px;
-            border-radius: 999px;
-            transition: all 0.25s ease;
+        .ui-header {
+            padding: 28px 14px 10px;
+            text-align: center;
         }
         
-        .nav a:not(.btn):hover {
-            color: var(--clay);
-            background: rgba(181, 96, 58, 0.06);
-        }
-        /* ── ボタン ── */
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 13px 26px;
-            border-radius: 999px;
-            border: none;
+        .ui-title {
+            font-family: 'Shippori Mincho', serif;
             font-weight: 700;
-            font-size: 0.94rem;
-            letter-spacing: 0.04em;
-            cursor: pointer;
-            transition: all 0.35s var(--ease-out);
+            font-size: 13px;
+            color: var(--amber);
+            letter-spacing: 0.08em;
+        }
+        
+        .ui-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid var(--line);
+            padding: 0 14px;
+        }
+        
+        .ui-tab {
+            flex: 1;
+            text-align: center;
+            padding: 8px 0 10px;
+            font-size: 10px;
+            color: var(--ink-light);
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+        }
+        
+        .ui-tab.active {
+            color: var(--amber);
+            border-color: var(--amber);
+            font-weight: 700;
+        }
+        
+        .ui-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            padding: 12px;
+        }
+        
+        .ui-card {
+            aspect-ratio: 1/1.1;
+            background: var(--washi-cream);
+            border-radius: 10px;
+            padding: 8px;
+            border: 1px solid var(--line-soft);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
             position: relative;
             overflow: hidden;
         }
         
-        .btn::after {
-            content: '';
+        .ui-card-img {
             position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            opacity: 0;
-            transition: opacity 0.35s ease;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+            inset: 6px 6px 22px 6px;
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
         }
         
-        .btn:hover::after {
-            opacity: 1;
+        .ui-c1 {
+            background: linear-gradient(135deg, #E8D4A0 0%, #D4B56A 100%);
         }
         
-        .btn:hover {
-            transform: translateY(-3px);
+        .ui-c2 {
+            background: linear-gradient(135deg, #C8A878 0%, #A07840 100%);
         }
         
-        .btn:active {
-            transform: translateY(-1px);
+        .ui-c3 {
+            background: linear-gradient(135deg, #F5DDD3 0%, #D8A898 100%);
         }
         
-        .btn-primary {
-            color: #fff;
-            background: linear-gradient(135deg, var(--clay) 0%, var(--clay-deep) 100%);
-            box-shadow: 0 8px 24px rgba(181, 96, 58, 0.3), 0 2px 8px rgba(181, 96, 58, 0.2);
+        .ui-c4 {
+            background: linear-gradient(135deg, #B8A893 0%, #8B7355 100%);
         }
         
-        .btn-primary:hover {
-            box-shadow: 0 14px 36px rgba(181, 96, 58, 0.38), 0 4px 12px rgba(181, 96, 58, 0.24);
+        .ui-c5 {
+            background: linear-gradient(135deg, #D4B8A0 0%, #A88868 100%);
         }
         
-        .btn-secondary {
-            color: var(--ink);
-            background: rgba(255, 255, 255, 0.88);
-            border: 1px solid rgba(26, 19, 13, 0.10);
-            box-shadow: var(--shadow-sm);
+        .ui-c6 {
+            background: linear-gradient(135deg, #E8D8C0 0%, #B8A080 100%);
         }
         
-        .btn-secondary:hover {
-            background: #fff;
-            box-shadow: var(--shadow-md);
+        .ui-card-label {
+            font-size: 8px;
+            color: var(--ink-mid);
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
         }
-        /* ── グラスカード ── */
         
-        .glass {
-            border-radius: var(--radius-xl);
-            border: 1px solid rgba(26, 19, 13, 0.07);
-            background: rgba(255, 253, 248, 0.72);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: var(--shadow-lg);
+        .ui-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 12px 18px;
+            border-top: 1px solid var(--line-soft);
+            background: rgba(252, 249, 240, 0.96);
+            backdrop-filter: blur(6px);
+        }
+        
+        .ui-ico {
+            font-size: 10px;
+            color: var(--ink-soft);
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .ui-ico.active {
+            color: var(--amber);
+            font-weight: 700;
+        }
+        
+        .ui-ico-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            margin: 0 auto 3px;
+            opacity: 0.7;
+        }
+        
+        .ui-fab {
+            position: absolute;
+            bottom: 42px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 34px;
+            height: 34px;
+            background: var(--amber);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            font-weight: 300;
+            box-shadow: 0 6px 14px -2px rgba(108, 47, 0, .5);
+        }
+        /* ================================================== */
+        /*  WAVE TRANSITION                                   */
+        /* ================================================== */
+        
+        .wave-divider {
+            position: relative;
+            height: 80px;
+            margin-top: -80px;
+            z-index: 5;
+            pointer-events: none;
+        }
+        
+        .wave-divider svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        /* ================================================== */
+        /*  SECTION "とは？"                                  */
+        /* ================================================== */
+        
+        .about {
+            background: white;
+            padding: 120px 0 110px;
+            text-align: center;
+            position: relative;
             overflow: hidden;
         }
-        /* ── 装飾区切り ── */
         
-        .divider {
+        .about-eyebrow {
+            display: inline-block;
+            font-size: 0.78rem;
+            letter-spacing: 0.3em;
+            color: var(--ink-light);
+            padding: 5px 16px;
+            border: 1px solid var(--line);
+            border-radius: 100px;
+            margin-bottom: 28px;
+            background: var(--washi);
+        }
+        
+        .about-title {
+            font-family: 'Shippori Mincho', serif;
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--ink);
+            margin-bottom: 28px;
+        }
+        
+        .about-title .name {
+            color: var(--amber);
+            font-size: 1.15em;
+            margin: 0 0.1em;
+        }
+        
+        .about-title .q {
+            font-size: 0.7em;
+            color: var(--ink-light);
+            margin-left: 0.2em;
+        }
+        
+        .about-text {
+            font-size: 1rem;
+            line-height: 2.1;
+            color: var(--ink-mid);
+            max-width: 720px;
+            margin: 0 auto;
+            text-wrap: pretty;
+        }
+        
+        .about-text strong {
+            color: var(--amber);
+            font-weight: 600;
+            background: linear-gradient(transparent 62%, rgba(212, 181, 106, 0.32) 62%);
+            padding: 0 2px;
+        }
+        
+        .about-ornament {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 16px;
-            padding: 16px 0;
+            margin: 44px auto 0;
+            max-width: 180px;
         }
         
-        .divider::before,
-        .divider::after {
-            content: '';
+        .about-ornament .line {
             flex: 1;
-            max-width: 120px;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(191, 154, 67, 0.25));
+            background: var(--line);
         }
         
-        .divider::after {
-            background: linear-gradient(90deg, rgba(191, 154, 67, 0.25), transparent);
-        }
-        
-        .divider span {
+        .about-ornament .dot {
             width: 6px;
             height: 6px;
-            background: rgba(191, 154, 67, 0.4);
             border-radius: 50%;
-            transform: rotate(45deg);
+            background: var(--gold);
         }
-        /* ── アイブロウ ── */
+        /* decorative flowers */
         
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 16px;
-            border-radius: 999px;
-            background: linear-gradient(135deg, rgba(181, 96, 58, 0.10), rgba(191, 154, 67, 0.08));
-            color: var(--clay-deep);
-            font-size: 0.82rem;
-            letter-spacing: 0.1em;
-            border: 1px solid rgba(181, 96, 58, 0.10);
-            font-family: 'Shippori Mincho', serif;
-        }
-        /* ══════════════════════════════════
-           HERO
-           ══════════════════════════════════ */
-        
-        .hero {
-            padding: 80px 0 48px;
-            text-align: center;
-            position: relative;
-        }
-        
-        .hero-badge {
-            margin-bottom: 24px;
-        }
-        
-        .hero-title {
-            font-size: clamp(2.6rem, 5.5vw, 4.4rem);
-            line-height: 1.15;
-            letter-spacing: 0.04em;
-            font-weight: 800;
-            font-family: 'Shippori Mincho', serif;
-        }
-        
-        .hero-title .accent {
-            background: linear-gradient(135deg, var(--clay), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .hero-sub {
-            margin: 16px auto 0;
-            font-size: 1.2rem;
-            color: var(--ink-soft);
-            max-width: 36rem;
-            font-family: 'Shippori Mincho', serif;
-            letter-spacing: 0.06em;
-        }
-        
-        .hero-lead {
-            margin: 28px auto 0;
-            font-size: 1.02rem;
-            color: var(--ink-soft);
-            max-width: 42rem;
-            line-height: 2;
-        }
-        
-        .hero-actions {
-            display: flex;
-            gap: 14px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 36px;
-        }
-        /* ── ヒーロービジュアル ── */
-        
-        .hero-visual {
-            margin-top: 56px;
-            display: flex;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .phone {
-            position: relative;
-            width: 280px;
-            height: 570px;
-            padding: 12px;
-            border-radius: 40px;
-            background: linear-gradient(180deg, #2a2620, #131110);
-            box-shadow: 0 40px 60px rgba(18, 10, 5, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.06) inset, 0 -2px 0 rgba(255, 255, 255, 0.04) inset;
-            z-index: 2;
-        }
-        
-        .phone::before {
-            content: '';
+        .about-flower-l,
+        .about-flower-r {
             position: absolute;
-            top: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 24px;
-            background: #1a1816;
-            border-radius: 0 0 16px 16px;
-            z-index: 3;
+            pointer-events: none;
+            opacity: calc(0.5 * var(--decor, 1));
         }
         
-        .phone-screen {
-            height: 100%;
-            border-radius: 30px;
-            overflow: hidden;
-            background: linear-gradient(180deg, #faf4eb, #f0e6d6);
-            display: flex;
-            flex-direction: column;
+        .about-flower-l {
+            width: 180px;
+            top: 40%;
+            left: -50px;
+            transform: rotate(-20deg);
         }
         
-        .phone-status {
-            display: flex;
-            justify-content: space-between;
-            padding: 14px 20px 6px;
-            font-size: 0.68rem;
-            font-weight: 700;
-        }
-        
-        .phone-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 18px;
-            border-bottom: 1px solid rgba(26, 19, 13, 0.06);
-            background: rgba(255, 255, 255, 0.50);
-        }
-        
-        .phone-header strong {
-            font-size: 0.96rem;
-            letter-spacing: 0.06em;
-            font-family: 'Shippori Mincho', serif;
-        }
-        
-        .phone-body {
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            flex: 1;
-            overflow: hidden;
-        }
-        
-        .phone-banner {
-            padding: 20px;
-            border-radius: 22px;
-            background: linear-gradient(135deg, var(--clay), var(--clay-light));
-            color: #fff;
-            box-shadow: 0 8px 24px rgba(181, 96, 58, 0.20);
-        }
-        
-        .phone-banner strong {
-            display: block;
-            font-size: 1rem;
-            margin-bottom: 6px;
-            line-height: 1.35;
-            font-family: 'Shippori Mincho', serif;
-        }
-        
-        .phone-banner p {
-            margin: 0;
-            color: rgba(255, 255, 255, 0.84);
-            font-size: 0.78rem;
-        }
-        
-        .phone-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        
-        .phone-card {
-            padding: 12px;
-            border-radius: var(--radius-sm);
-            border: 1px solid rgba(26, 19, 13, 0.05);
-            background: rgba(255, 255, 255, 0.80);
-        }
-        
-        .phone-card strong {
-            display: block;
-            font-size: 0.78rem;
-            margin-bottom: 4px;
-        }
-        
-        .phone-card p {
-            margin: 0;
-            font-size: 0.68rem;
-            color: var(--ink-soft);
-        }
-        
-        .mini-meter {
-            height: 5px;
-            border-radius: 999px;
-            background: rgba(26, 19, 13, 0.06);
-            overflow: hidden;
-            margin-top: 8px;
-        }
-        
-        .mini-meter span {
-            display: block;
-            height: 100%;
-            border-radius: inherit;
-        }
-        
-        .phone-chips {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            padding: 10px 12px;
-            border-radius: var(--radius-sm);
-            border: 1px solid rgba(26, 19, 13, 0.05);
-            background: rgba(255, 255, 255, 0.80);
-        }
-        
-        .phone-chip {
-            padding: 4px 12px;
-            border-radius: 999px;
-            font-size: 0.7rem;
-            background: linear-gradient(135deg, rgba(181, 96, 58, 0.08), rgba(191, 154, 67, 0.06));
-            color: var(--clay-deep);
-            border: 1px solid rgba(181, 96, 58, 0.08);
-        }
-        /* ── フローティングカード ── */
-        
-        .float-card {
-            position: absolute;
-            width: 210px;
-            padding: 18px;
-            border-radius: 20px;
-            border: 1px solid rgba(26, 19, 13, 0.06);
-            background: rgba(255, 255, 255, 0.94);
-            box-shadow: var(--shadow-lg);
-            backdrop-filter: blur(12px);
-            z-index: 3;
-            animation: drift 7s ease-in-out infinite;
-        }
-        
-        .float-card h4 {
-            font-size: 0.88rem;
-            font-family: 'Shippori Mincho', serif;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-        
-        .float-card p {
-            margin: 0;
-            font-size: 0.78rem;
-            color: var(--ink-soft);
-            line-height: 1.6;
-        }
-        
-        .float-card.left {
-            left: calc(50% - 340px);
-            top: 40px;
-            animation-delay: -1.5s;
-        }
-        
-        .float-card.right {
-            right: calc(50% - 340px);
+        .about-flower-r {
+            width: 160px;
             bottom: 20px;
-            animation-delay: -4s;
+            right: -40px;
+            transform: rotate(15deg);
         }
-        /* ── ヒーローキャラクター ── */
+        /* ================================================== */
+        /*  SECTION "できること"                              */
+        /* ================================================== */
         
-        .hero-character {
+        .features {
+            padding: 120px 0 140px;
+            background: radial-gradient(ellipse 600px 500px at 90% 10%, rgba(245, 232, 200, 0.5), transparent 60%), radial-gradient(ellipse 500px 400px at 0% 90%, rgba(250, 232, 222, 0.35), transparent 60%), var(--washi);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .features-fan-bg {
             position: absolute;
-            right: calc(50% - 380px);
-            bottom: -40px;
-            width: 200px;
-            z-index: 4;
-            animation: drift 8s ease-in-out infinite;
-            animation-delay: -2s;
-            filter: drop-shadow(0 12px 24px rgba(18, 10, 5, 0.15));
+            width: 380px;
+            top: 80px;
+            left: -120px;
+            opacity: calc(0.45 * var(--decor, 1));
+            transform: rotate(-18deg);
             pointer-events: none;
         }
         
-        .hero-character img {
-            width: 100%;
-            height: auto;
-        }
-        
-        .chip-inline {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-        
-        .chip-inline span {
-            padding: 4px 12px;
-            border-radius: 999px;
-            font-size: 0.72rem;
-            background: linear-gradient(135deg, rgba(181, 96, 58, 0.08), rgba(191, 154, 67, 0.06));
-            color: var(--clay-deep);
-            border: 1px solid rgba(181, 96, 58, 0.08);
-        }
-        /* ══════════════════════════════════
-           セクション共通
-           ══════════════════════════════════ */
-        
-        .section {
-            padding: 48px 0;
-        }
-        
-        .section-shell {
-            padding: 52px;
-            position: relative;
-        }
-        
-        .section-shell::before {
-            content: '';
+        .features-temari-bg {
             position: absolute;
-            top: -1px;
-            left: 48px;
-            right: 48px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(181, 96, 58, 0.15), rgba(191, 154, 67, 0.15), transparent);
+            width: 160px;
+            bottom: 80px;
+            right: -40px;
+            opacity: calc(0.6 * var(--decor, 1));
+            pointer-events: none;
         }
         
         .section-head {
-            margin-bottom: 40px;
+            text-align: center;
+            margin-bottom: 72px;
+            position: relative;
+            z-index: 2;
         }
         
-        .section-head .eyebrow {
-            margin-bottom: 16px;
+        .section-eyebrow {
+            font-family: 'Shippori Mincho', serif;
+            font-size: 0.82rem;
+            letter-spacing: 0.4em;
+            color: var(--amber);
+            margin-bottom: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-eyebrow::before,
+        .section-eyebrow::after {
+            content: '';
+            width: 30px;
+            height: 1px;
+            background: currentColor;
+            opacity: 0.4;
         }
         
         .section-title {
-            margin: 0;
-            font-size: clamp(1.9rem, 3vw, 2.8rem);
-            line-height: 1.25;
-            letter-spacing: 0.04em;
-            font-weight: 800;
             font-family: 'Shippori Mincho', serif;
+            font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: var(--ink);
+            line-height: 1.4;
         }
-        
-        .section-lead {
-            margin-top: 16px;
-            color: var(--ink-soft);
-            font-size: 1rem;
-            max-width: 42rem;
-            line-height: 1.9;
-        }
-        /* ══════════════════════════════════
-           FEATURES — 機能紹介
-           ══════════════════════════════════ */
         
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            position: relative;
+            z-index: 2;
         }
         
         .feature-card {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 20px;
-            align-items: start;
-            padding: 28px;
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(26, 19, 13, 0.06);
-            background: rgba(255, 255, 255, 0.82);
-            transition: all 0.4s var(--ease-out);
+            background: white;
+            border: 1px solid var(--line-soft);
+            border-radius: 24px;
+            padding: 40px 32px 36px;
             position: relative;
             overflow: hidden;
+            transition: transform .4s cubic-bezier(.4, 0, .2, 1), box-shadow .4s, border-color .4s;
         }
         
         .feature-card:hover {
             transform: translateY(-6px);
-            box-shadow: var(--shadow-lg);
-            border-color: rgba(181, 96, 58, 0.12);
+            box-shadow: 0 24px 48px -16px rgba(108, 47, 0, .18);
+            border-color: var(--line);
         }
         
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 20px;
-            display: grid;
-            place-items: center;
-            font-size: 1.5rem;
-            border: 1px solid rgba(26, 19, 13, 0.04);
-            box-shadow: var(--shadow-sm);
-            transition: all 0.4s var(--ease-out);
+        .feature-num {
+            position: absolute;
+            top: 4px;
+            left: 18px;
+            font-family: 'Shippori Mincho', serif;
+            font-size: 140px;
+            font-weight: 700;
+            line-height: 0.85;
+            color: rgba(108, 47, 0, 0.06);
+            pointer-events: none;
+            letter-spacing: -0.04em;
+            z-index: 1;
         }
         
-        .feature-card:hover .feature-icon {
-            transform: scale(1.08) rotate(-3deg);
-            box-shadow: var(--shadow-md);
+        .feature-screen {
+            position: relative;
+            z-index: 2;
+            aspect-ratio: 9 / 13;
+            background: linear-gradient(180deg, var(--washi-soft), var(--washi-cream));
+            border-radius: 18px;
+            padding: 8px;
+            margin: 0 auto 28px;
+            max-width: 230px;
+            border: 1px solid var(--line-soft);
+            box-shadow: 0 12px 24px -8px rgba(108, 47, 0, .15), 0 2px 4px rgba(108, 47, 0, .05);
+            overflow: hidden;
         }
         
-        .feature-icon.closet {
-            background: linear-gradient(135deg, rgba(181, 96, 58, 0.12), rgba(191, 154, 67, 0.08));
+        .feature-phone {
+            width: 100%;
+            height: 100%;
+            background: var(--washi);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
         }
         
-        .feature-icon.closet::before {
-            content: '';
-            width: 28px;
-            height: 28px;
-            background: var(--clay);
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z'/%3E%3Ccircle cx='12' cy='13' r='4'/%3E%3C/svg%3E") no-repeat center;
-            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z'/%3E%3Ccircle cx='12' cy='13' r='4'/%3E%3C/svg%3E") no-repeat center;
+        .feature-body {
+            position: relative;
+            z-index: 2;
+            text-align: left;
         }
         
-        .feature-icon.coord {
-            background: linear-gradient(135deg, rgba(45, 74, 110, 0.12), rgba(111, 132, 100, 0.08));
-        }
-        
-        .feature-icon.coord::before {
-            content: '';
-            width: 28px;
-            height: 28px;
-            background: var(--indigo);
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='3' y='3' width='7' height='7'/%3E%3Crect x='14' y='3' width='7' height='7'/%3E%3Crect x='14' y='14' width='7' height='7'/%3E%3Crect x='3' y='14' width='7' height='7'/%3E%3C/svg%3E") no-repeat center;
-            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='3' y='3' width='7' height='7'/%3E%3Crect x='14' y='3' width='7' height='7'/%3E%3Crect x='14' y='14' width='7' height='7'/%3E%3Crect x='3' y='14' width='7' height='7'/%3E%3C/svg%3E") no-repeat center;
-        }
-        
-        .feature-icon.diary {
-            background: linear-gradient(135deg, rgba(111, 132, 100, 0.14), rgba(45, 74, 110, 0.08));
-        }
-        
-        .feature-icon.diary::before {
-            content: '';
-            width: 28px;
-            height: 28px;
-            background: var(--sage);
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M4 19.5A2.5 2.5 0 016.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z'/%3E%3C/svg%3E") no-repeat center;
-            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M4 19.5A2.5 2.5 0 016.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z'/%3E%3C/svg%3E") no-repeat center;
-        }
-        
-        .feature-icon.calendar {
-            background: linear-gradient(135deg, rgba(122, 74, 106, 0.12), rgba(191, 154, 67, 0.08));
-        }
-        
-        .feature-icon.calendar::before {
-            content: '';
-            width: 28px;
-            height: 28px;
-            background: var(--plum);
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E") no-repeat center;
-            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E") no-repeat center;
-        }
-        
-        .feature-icon.ai {
-            background: linear-gradient(135deg, rgba(191, 154, 67, 0.14), rgba(181, 96, 58, 0.08));
-        }
-        
-        .feature-icon.ai::before {
-            content: '';
-            width: 28px;
-            height: 28px;
-            background: var(--gold);
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/%3E%3C/svg%3E") no-repeat center;
-            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/%3E%3C/svg%3E") no-repeat center;
-        }
-        
-        .feature-icon.store {
-            background: linear-gradient(135deg, rgba(45, 74, 110, 0.14), rgba(122, 74, 106, 0.08));
-        }
-        
-        .feature-icon.store::before {
-            content: '';
-            width: 28px;
-            height: 28px;
-            background: var(--indigo);
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E") no-repeat center;
-            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E") no-repeat center;
-        }
-        
-        .feature-card h3 {
-            margin: 0 0 8px;
-            font-size: 1.06rem;
+        .feature-badge {
+            display: inline-flex;
+            align-items: center;
             font-family: 'Shippori Mincho', serif;
             font-weight: 700;
+            color: var(--amber);
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            padding: 3px 11px;
+            border: 1px solid var(--amber);
+            border-radius: 100px;
+            margin-bottom: 14px;
         }
         
-        .feature-card p {
-            margin: 0;
-            font-size: 0.92rem;
-            color: var(--ink-soft);
-            line-height: 1.75;
+        .feature-badge .kmark {
+            font-size: 0.9em;
+            margin-right: 4px;
         }
-        /* ══════════════════════════════════
-           STEPS — 使い方
-           ══════════════════════════════════ */
         
-        .steps-grid {
+        .feature-name {
+            font-family: 'Shippori Mincho', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: 0.04em;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+        
+        .feature-desc {
+            font-size: 0.88rem;
+            line-height: 2;
+            color: var(--ink-mid);
+        }
+        /* --- feature phone 1 (closet) --- */
+        
+        .fp1-header {
+            padding: 16px 10px 8px;
+            text-align: center;
+            border-bottom: 1px solid var(--line-soft);
+        }
+        
+        .fp1-title {
+            font-family: 'Shippori Mincho', serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--amber);
+            letter-spacing: 0.06em;
+        }
+        
+        .fp1-sub {
+            font-size: 8px;
+            color: var(--ink-light);
+            margin-top: 2px;
+        }
+        
+        .fp1-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            counter-reset: step;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            padding: 8px;
         }
         
-        .step-card {
-            padding: 28px;
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(26, 19, 13, 0.06);
-            background: rgba(255, 255, 255, 0.82);
-            transition: all 0.4s var(--ease-out);
+        .fp1-item {
+            aspect-ratio: 1/1.1;
+            border-radius: 7px;
             position: relative;
             overflow: hidden;
         }
         
-        .step-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-            border-color: rgba(181, 96, 58, 0.12);
-        }
-        
-        .step-num {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 38px;
-            height: 38px;
-            border-radius: 13px;
-            margin-bottom: 16px;
-            font-weight: 800;
-            font-size: 0.92rem;
-            background: linear-gradient(135deg, var(--clay), var(--clay-light));
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(181, 96, 58, 0.2);
-        }
-        
-        .step-card h3 {
-            margin: 0 0 8px;
-            font-size: 1.04rem;
-            font-family: 'Shippori Mincho', serif;
-            font-weight: 700;
-        }
-        
-        .step-card p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--ink-soft);
-            line-height: 1.75;
-        }
-        
-        .step-card::after {
+        .fp1-item::after {
             content: '';
             position: absolute;
-            top: 42px;
-            right: -11px;
-            width: 22px;
-            height: 2px;
-            background: linear-gradient(90deg, rgba(181, 96, 58, 0.25), transparent);
-            border-radius: 1px;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 65%, rgba(0, 0, 0, .15));
         }
+        /* --- feature phone 2 (coord) --- */
         
-        .step-card:last-child::after {
-            display: none;
-        }
-        /* ══════════════════════════════════
-           WORRIES — お悩み
-           ══════════════════════════════════ */
-        
-        .worries-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-        }
-        
-        .worry-card {
-            padding: 28px;
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(26, 19, 13, 0.06);
-            background: rgba(255, 255, 255, 0.82);
-            transition: all 0.4s var(--ease-out);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .worry-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-            border-color: rgba(181, 96, 58, 0.12);
-        }
-        
-        .worry-card.solution {
-            background: linear-gradient(180deg, rgba(181, 96, 58, 0.08), rgba(255, 253, 248, 0.92));
-            border-color: rgba(181, 96, 58, 0.15);
-        }
-        
-        .worry-emoji {
-            display: inline-flex;
+        .fp2 {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-width: 38px;
-            height: 38px;
-            border-radius: 13px;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, rgba(181, 96, 58, 0.12), rgba(191, 154, 67, 0.08));
+            height: 100%;
         }
         
-        .worry-emoji::before {
-            content: '';
-            width: 20px;
-            height: 20px;
-            background: var(--clay);
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M16 16s-1.5-2-4-2-4 2-4 2'/%3E%3Cline x1='9' y1='9' x2='9.01' y2='9'/%3E%3Cline x1='15' y1='9' x2='15.01' y2='9'/%3E%3C/svg%3E") no-repeat center;
-            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M16 16s-1.5-2-4-2-4 2-4 2'/%3E%3Cline x1='9' y1='9' x2='9.01' y2='9'/%3E%3Cline x1='15' y1='9' x2='15.01' y2='9'/%3E%3C/svg%3E") no-repeat center;
-        }
-        
-        .worry-card.solution .worry-emoji::before {
-            background: #fff;
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M22 11.08V12a10 10 0 11-5.93-9.14'/%3E%3Cpath d='M22 4L12 14.01l-3-3'/%3E%3C/svg%3E") no-repeat center;
-            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M22 11.08V12a10 10 0 11-5.93-9.14'/%3E%3Cpath d='M22 4L12 14.01l-3-3'/%3E%3C/svg%3E") no-repeat center;
-        }
-        
-        .worry-card.solution .worry-emoji {
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
-            box-shadow: 0 4px 12px rgba(191, 154, 67, 0.2);
-        }
-        
-        .worry-card h3 {
-            margin: 0 0 8px;
-            font-size: 1.02rem;
+        .fp2-title {
             font-family: 'Shippori Mincho', serif;
+            font-size: 10px;
+            color: var(--amber);
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
             font-weight: 700;
         }
         
-        .worry-card p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--ink-soft);
-            line-height: 1.75;
-        }
-        /* ══════════════════════════════════
-           PERSONA — こんな方に
-           ══════════════════════════════════ */
-        
-        .persona-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
+        .fp2-kimono {
+            width: 85%;
+            aspect-ratio: 0.7;
+            position: relative;
+            margin-bottom: 10px;
         }
         
-        .persona-card {
-            padding: 28px;
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(26, 19, 13, 0.06);
-            background: rgba(255, 255, 255, 0.82);
-            transition: all 0.4s var(--ease-out);
+        .fp2-kimono img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .fp2-swatches {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+        
+        .fp2-sw {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1.5px solid white;
+            box-shadow: 0 0 0 1px var(--line);
+        }
+        
+        .fp2-sw.active {
+            box-shadow: 0 0 0 1.5px var(--amber);
+        }
+        /* --- feature phone 3 (AI) --- */
+        
+        .fp3 {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .fp3-header {
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--line-soft);
+            margin-bottom: 8px;
+        }
+        
+        .fp3-title {
+            font-family: 'Shippori Mincho', serif;
+            font-size: 10px;
+            color: var(--amber);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+        
+        .fp3-bubble {
+            background: var(--washi-cream);
+            border-radius: 10px 10px 10px 2px;
+            padding: 7px 10px;
+            font-size: 8px;
+            line-height: 1.5;
+            color: var(--ink);
+            margin-bottom: 6px;
+            max-width: 92%;
+        }
+        
+        .fp3-bubble.user {
+            background: var(--amber);
+            color: white;
+            border-radius: 10px 10px 2px 10px;
+            margin-left: auto;
+        }
+        
+        .fp3-result {
+            margin-top: auto;
+            padding: 8px;
+            background: white;
+            border: 1px solid var(--line-soft);
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .fp3-result-title {
+            font-size: 7.5px;
+            color: var(--amber);
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: 0.08em;
+        }
+        
+        .fp3-result-items {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+        }
+        
+        .fp3-chip {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+        }
+        /* ================================================== */
+        /*  DEMO SECTION                                      */
+        /* ================================================== */
+        
+        .demo {
+            padding: 120px 0;
+            background: white;
             position: relative;
             overflow: hidden;
         }
         
-        .persona-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-            border-color: rgba(181, 96, 58, 0.12);
+        .demo-flower {
+            position: absolute;
+            width: 220px;
+            bottom: -60px;
+            right: -50px;
+            opacity: calc(0.4 * var(--decor, 1));
+            transform: rotate(20deg);
+            pointer-events: none;
         }
         
-        .persona-card h3 {
-            margin: 0 0 8px;
-            font-size: 1.04rem;
+        .demo-petals {
+            position: absolute;
+            width: 150px;
+            top: 60px;
+            left: 20px;
+            opacity: calc(0.5 * var(--decor, 1));
+            transform: rotate(-30deg);
+            pointer-events: none;
+        }
+        
+        .demo-inner {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 80px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .demo-text {
+            max-width: 460px;
+        }
+        
+        .demo-title {
             font-family: 'Shippori Mincho', serif;
+            font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.5;
+            letter-spacing: 0.04em;
+            margin-bottom: 24px;
+        }
+        
+        .demo-title .amber {
+            color: var(--amber);
+        }
+        
+        .demo-desc {
+            font-size: 0.95rem;
+            line-height: 2;
+            color: var(--ink-mid);
+            margin-bottom: 28px;
+        }
+        
+        .demo-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .demo-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--line);
+            font-size: 0.92rem;
+            color: var(--ink);
+        }
+        
+        .demo-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .demo-tick {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--amber);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+        
+        .demo-list b {
+            color: var(--amber);
             font-weight: 700;
         }
+        /* Interactive demo widget */
         
-        .persona-card p {
-            margin: 0;
-            font-size: 0.92rem;
-            color: var(--ink-soft);
-            line-height: 1.75;
-        }
-        /* ── 数値カード ── */
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-            margin-top: 28px;
+        .demo-card {
+            background: var(--washi);
+            border: 1px solid var(--line-soft);
+            border-radius: 28px;
+            padding: 28px;
+            box-shadow: 0 30px 60px -20px rgba(108, 47, 0, .2);
+            position: relative;
         }
         
-        .stat-card {
-            text-align: center;
-            padding: 28px 22px;
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(26, 19, 13, 0.06);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(250, 244, 234, 0.88));
-            transition: all 0.4s var(--ease-out);
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 1px solid var(--line-soft);
+            border-radius: 22px;
+            pointer-events: none;
         }
         
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .stat-number {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 2.2rem;
-            font-weight: 800;
-            font-family: 'Shippori Mincho', serif;
-            background: linear-gradient(135deg, var(--clay), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .stat-card p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--ink-soft);
-        }
-        /* ══════════════════════════════════
-           SCREENS — 画面プレビュー
-           ══════════════════════════════════ */
-        
-        .screens-grid {
-            display: grid;
-            gap: 18px;
-        }
-        
-        .screen-card {
-            display: grid;
-            grid-template-columns: 160px 1fr;
-            gap: 24px;
-            padding: 24px;
-            align-items: center;
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(26, 19, 13, 0.06);
-            background: rgba(255, 255, 255, 0.82);
-            transition: all 0.4s var(--ease-out);
-        }
-        
-        .screen-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-            border-color: rgba(181, 96, 58, 0.12);
-        }
-        
-        .mini-phone {
-            width: 160px;
-            padding: 8px;
-            border-radius: 26px;
-            background: linear-gradient(180deg, #2a2620, #161412);
-            box-shadow: var(--shadow-lg);
-            transition: transform 0.5s var(--ease-out);
-        }
-        
-        .screen-card:hover .mini-phone {
-            transform: scale(1.03);
-        }
-        
-        .mini-phone-inner {
-            min-height: 280px;
-            border-radius: 20px;
-            padding: 12px;
-            background: linear-gradient(180deg, #fbf6ed, #f0e4d2);
-        }
-        
-        .mini-bar {
+        .demo-card-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 0.6rem;
-            margin-bottom: 10px;
-            color: var(--ink-soft);
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--line-soft);
+            margin-bottom: 18px;
         }
         
-        .mini-hero-block {
-            padding: 14px;
-            min-height: 80px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, rgba(181, 96, 58, 0.92), rgba(212, 137, 106, 0.78));
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: end;
-            box-shadow: 0 4px 12px rgba(181, 96, 58, 0.15);
-        }
-        
-        .mini-hero-block strong {
-            display: block;
-            font-size: 0.82rem;
+        .demo-card-title {
             font-family: 'Shippori Mincho', serif;
+            font-size: 0.95rem;
+            color: var(--amber);
+            font-weight: 700;
+            letter-spacing: 0.08em;
         }
         
-        .mini-hero-block span {
-            font-size: 0.6rem;
-            line-height: 1.5;
+        .demo-card-badge {
+            font-size: 0.7rem;
+            background: var(--amber);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 100px;
+            letter-spacing: 0.08em;
         }
         
-        .mini-stack {
-            display: grid;
-            gap: 8px;
-            margin-top: 8px;
-        }
-        
-        .mini-block {
-            padding: 10px;
-            min-height: 42px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.82);
-            border: 1px solid rgba(26, 19, 13, 0.04);
-        }
-        
-        .mini-block span {
-            font-size: 0.6rem;
-            line-height: 1.5;
-            color: var(--ink-soft);
-        }
-        
-        .mini-grid-2 {
+        .demo-scene {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            padding: 8px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.82);
-            border: 1px solid rgba(26, 19, 13, 0.04);
-        }
-        
-        .mini-tile {
-            min-height: 48px;
-            border-radius: 10px;
-            background: rgba(111, 132, 100, 0.14);
-        }
-        
-        .screen-copy .label {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 7px 14px;
-            margin-bottom: 14px;
-            border-radius: 999px;
-            background: linear-gradient(135deg, rgba(45, 74, 110, 0.08), rgba(111, 132, 100, 0.06));
-            color: var(--indigo);
-            font-size: 0.8rem;
-            font-weight: 700;
-            border: 1px solid rgba(45, 74, 110, 0.08);
-        }
-        
-        .screen-copy h3 {
-            margin: 0 0 8px;
-            font-size: 1.06rem;
-            font-family: 'Shippori Mincho', serif;
-            font-weight: 700;
-        }
-        
-        .screen-copy p {
-            margin: 0;
-            color: var(--ink-soft);
-            font-size: 0.92rem;
-            line-height: 1.75;
-        }
-        
-        .screen-copy ul {
-            margin: 14px 0 0;
-            padding-left: 20px;
-            color: var(--ink-soft);
-            font-size: 0.92rem;
-        }
-        
-        .screen-copy ul li {
-            margin-bottom: 4px;
-        }
-        
-        .screen-copy ul li::marker {
-            color: var(--clay);
-        }
-        /* ══════════════════════════════════
-           CTA
-           ══════════════════════════════════ */
-        
-        .cta {
-            padding: 48px 0 80px;
-        }
-        
-        .cta-card {
-            padding: 56px;
-            background: radial-gradient(ellipse at 10% 10%, rgba(191, 154, 67, 0.12), transparent 40%), radial-gradient(ellipse at 90% 90%, rgba(111, 132, 100, 0.10), transparent 40%), linear-gradient(160deg, #faf6f0 0%, #f3ebe0 50%, #f0e8da 100%);
-            color: var(--ink);
-            border: 1px solid rgba(181, 96, 58, 0.12);
-            box-shadow: 0 8px 40px rgba(181, 96, 58, 0.08), 0 1px 3px rgba(26, 19, 13, 0.04);
-        }
-        
-        .cta-card h2 {
-            margin: 16px 0 0;
-            font-size: clamp(2rem, 3vw, 3rem);
-            line-height: 1.2;
-            letter-spacing: 0.03em;
-            font-weight: 800;
-            font-family: 'Shippori Mincho', serif;
-            color: var(--clay);
-        }
-        
-        .cta-card>p {
-            margin: 20px 0 0;
-            max-width: 42rem;
-            color: var(--ink-soft);
-            line-height: 1.9;
-        }
-        
-        .cta-actions {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-            margin-top: 32px;
-        }
-        /* ── CTAキャラクター ── */
-        
-        .cta-content {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-        }
-        
-        .cta-text {
-            flex: 1;
-        }
-        
-        .cta-character {
-            flex-shrink: 0;
-            width: 180px;
-            animation: drift 7s ease-in-out infinite;
-            animation-delay: -3s;
-            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.2));
-        }
-        
-        .cta-character img {
-            width: 100%;
-            height: auto;
-        }
-        
-        .btn-white {
-            color: #fff;
-            background: var(--clay);
-            box-shadow: 0 8px 24px rgba(181, 96, 58, 0.25);
-        }
-        
-        .btn-white:hover {
-            background: var(--clay-deep);
-            box-shadow: 0 14px 36px rgba(181, 96, 58, 0.30);
-        }
-        
-        .btn-outline {
-            color: var(--clay);
-            background: transparent;
-            border: 1.5px solid var(--clay);
-        }
-        
-        .btn-outline:hover {
-            background: rgba(181, 96, 58, 0.06);
-            border-color: var(--clay-deep);
-            color: var(--clay-deep);
-        }
-        
-        .cta-panels {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-            margin-top: 36px;
-        }
-        
-        .cta-panel {
-            padding: 26px;
-            border-radius: 22px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.10);
-            backdrop-filter: blur(8px);
-            transition: all 0.35s var(--ease-out);
-        }
-        
-        .cta-panel:hover {
-            background: rgba(255, 255, 255, 0.10);
-            border-color: rgba(255, 255, 255, 0.16);
-        }
-        
-        .cta-panel strong {
-            display: block;
-            font-size: 1.06rem;
-            margin-bottom: 10px;
-            font-family: 'Shippori Mincho', serif;
-        }
-        
-        .cta-panel ul {
-            margin: 14px 0 0;
-            padding-left: 20px;
-            color: rgba(255, 255, 255, 0.78);
-            line-height: 1.9;
-        }
-        
-        .cta-panel ul li::marker {
-            color: var(--gold-light);
-        }
-        /* ── フッター ── */
-        
-        .footer {
-            padding: 48px 0;
-            color: var(--ink-faint);
-            font-size: 0.84rem;
-            text-align: center;
-            letter-spacing: 0.06em;
-            border-top: 1px solid rgba(26, 19, 13, 0.06);
-        }
-        
-        .footer-inner {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .footer-brand {
-            font-family: 'Shippori Mincho', serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--ink);
-            letter-spacing: 0.1em;
+            gap: 16px;
             margin-bottom: 20px;
+        }
+        
+        .demo-scene-btn {
+            padding: 14px 10px;
+            background: white;
+            border: 1px solid var(--line-soft);
+            border-radius: 14px;
+            font-size: 0.82rem;
+            color: var(--ink);
+            cursor: pointer;
+            transition: all .25s;
+            font-family: inherit;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        .demo-scene-btn .scn {
+            font-family: 'Shippori Mincho', serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: block;
+            margin-bottom: 3px;
+        }
+        
+        .demo-scene-btn .scn-sub {
+            font-size: 0.7rem;
+            color: var(--ink-light);
+        }
+        
+        .demo-scene-btn:hover {
+            border-color: var(--amber);
+            background: var(--washi-soft);
+        }
+        
+        .demo-scene-btn.active {
+            background: var(--amber);
+            border-color: var(--amber);
+            color: white;
+        }
+        
+        .demo-scene-btn.active .scn-sub {
+            color: rgba(255, 255, 255, .8);
+        }
+        
+        .demo-suggest {
+            background: white;
+            border-radius: 16px;
+            padding: 18px;
+            border: 1px solid var(--line-soft);
+            min-height: 220px;
+        }
+        
+        .demo-sug-head {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .demo-sug-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--amber);
+            box-shadow: 0 0 0 4px rgba(108, 47, 0, 0.15);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                box-shadow: 0 0 0 4px rgba(108, 47, 0, 0.15);
+            }
+            50% {
+                box-shadow: 0 0 0 7px rgba(108, 47, 0, 0.05);
+            }
+        }
+        
+        .demo-sug-label {
+            font-size: 0.75rem;
+            color: var(--amber);
+            font-weight: 700;
+            letter-spacing: 0.12em;
+        }
+        
+        .demo-sug-body {
+            font-family: 'Shippori Mincho', serif;
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--ink);
+            margin-bottom: 16px;
+            min-height: 3.5em;
+        }
+        
+        .demo-sug-items {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
         }
         
-        .footer-brand img {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+        .demo-sug-item {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--line-soft);
         }
         
-        .footer-links {
-            display: flex;
-            justify-content: center;
+        .demo-sug-item-label {
+            position: absolute;
+            left: 6px;
+            bottom: 6px;
+            font-size: 0.62rem;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px 6px;
+            border-radius: 4px;
+            letter-spacing: 0.08em;
+        }
+        /* ================================================== */
+        /*  TESTIMONIAL                                       */
+        /* ================================================== */
+        
+        .voice {
+            padding: 110px 0;
+            background: var(--washi-cream);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .voice-blob1 {
+            position: absolute;
+            width: 500px;
+            top: -100px;
+            left: -100px;
+            opacity: calc(0.5 * var(--decor, 1));
+            pointer-events: none;
+        }
+        
+        .voice-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 24px;
-            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .voice-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px 28px;
+            position: relative;
+            border: 1px solid var(--line-soft);
+            transition: transform .3s;
+        }
+        
+        .voice-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .voice-card::before {
+            content: '\201C';
+            position: absolute;
+            top: 12px;
+            right: 20px;
+            font-family: 'Shippori Mincho', serif;
+            font-size: 80px;
+            color: var(--yamabuki-pale);
+            line-height: 1;
+            z-index: 0;
+        }
+        
+        .voice-stars {
+            color: var(--gold);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            letter-spacing: 0.08em;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .voice-headline {
+            font-family: 'Shippori Mincho', serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--ink);
+            margin-bottom: 14px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .voice-text {
+            font-size: 0.88rem;
+            line-height: 1.9;
+            color: var(--ink-mid);
             margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
         }
         
-        .footer-links a {
-            color: var(--ink-soft);
-            font-size: 0.84rem;
-            letter-spacing: 0.04em;
-            transition: color 0.2s;
+        .voice-person {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-top: 14px;
+            border-top: 1px solid var(--line-soft);
+            position: relative;
+            z-index: 2;
         }
         
-        .footer-links a:hover {
-            color: var(--clay);
+        .voice-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--yamabuki-light), var(--gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Shippori Mincho', serif;
+            font-weight: 700;
+            font-size: 1rem;
         }
         
-        .footer-copy {
+        .voice-person-info {
+            line-height: 1.4;
+        }
+        
+        .voice-name {
+            font-size: 0.85rem;
+            color: var(--ink);
+            font-weight: 600;
+        }
+        
+        .voice-meta {
+            font-size: 0.72rem;
+            color: var(--ink-light);
+        }
+        /* ================================================== */
+        /*  CTA                                               */
+        /* ================================================== */
+        
+        .cta {
+            position: relative;
+            background: radial-gradient(ellipse at 20% 20%, var(--amber-light), var(--amber) 50%, var(--amber-dark));
+            color: white;
+            padding: 110px 0 100px;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle at 15% 30%, rgba(255, 220, 150, 0.08) 0, transparent 40%), radial-gradient(circle at 85% 70%, rgba(255, 220, 150, 0.06) 0, transparent 40%);
+        }
+        
+        .cta-petals {
+            position: absolute;
+            width: 180px;
+            top: 30px;
+            right: 5%;
+            opacity: 0.3;
+            filter: brightness(1.2);
+            pointer-events: none;
+        }
+        
+        .cta-flower {
+            position: absolute;
+            width: 150px;
+            bottom: 40px;
+            left: 6%;
+            opacity: 0.28;
+            filter: brightness(1.2);
+            pointer-events: none;
+        }
+        
+        .cta-inner {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cta-eyebrow {
+            display: inline-flex;
+            gap: 10px;
+            align-items: center;
+            font-family: 'Shippori Mincho', serif;
+            font-size: 0.82rem;
+            letter-spacing: 0.4em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 24px;
+        }
+        
+        .cta-eyebrow::before,
+        .cta-eyebrow::after {
+            content: '';
+            width: 30px;
+            height: 1px;
+            background: currentColor;
+            opacity: 0.6;
+        }
+        
+        .cta-title {
+            font-family: 'Shippori Mincho', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            line-height: 1.4;
+            margin-bottom: 24px;
+        }
+        
+        .cta-desc {
+            font-size: 1rem;
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.82);
+            max-width: 540px;
+            margin: 0 auto 40px;
+        }
+        
+        .cta-store {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 36px;
+        }
+        
+        .cta .btn-store {
+            background: white;
+            color: var(--ink);
+            border-color: white;
+        }
+        
+        .cta .btn-store:hover {
+            background: var(--washi);
+            border-color: var(--washi);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px -8px rgba(0, 0, 0, .3);
+        }
+        
+        .cta-note {
+            display: inline-block;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 8px 22px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 100px;
+            letter-spacing: 0.08em;
+        }
+        /* ================================================== */
+        /*  FOOTER                                            */
+        /* ================================================== */
+        
+        footer {
+            background: var(--amber-dark);
+            padding: 32px 0;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            letter-spacing: 0.06em;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        footer a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color .2s;
+        }
+        
+        footer a:hover {
+            color: white;
+        }
+        
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Shippori Mincho', serif;
+        }
+        
+        .footer-brand img {
+            width: 24px;
+            height: 24px;
+        }
+        /* ================================================== */
+        /*  ANIMATIONS                                        */
+        /* ================================================== */
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity .9s cubic-bezier(.4, 0, .2, 1), transform .9s cubic-bezier(.4, 0, .2, 1);
+        }
+        
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .reveal:nth-child(2) {
+            transition-delay: .1s;
+        }
+        
+        .reveal:nth-child(3) {
+            transition-delay: .2s;
+        }
+        
+        .reveal:nth-child(4) {
+            transition-delay: .3s;
+        }
+        /* ================================================== */
+        /*  TWEAK PANEL                                       */
+        /* ================================================== */
+        
+        #tweaks-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 280px;
+            background: rgba(252, 249, 240, 0.96);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 20px 50px -10px rgba(108, 47, 0, .3);
+            font-family: 'Noto Sans JP', sans-serif;
+            display: none;
+        }
+        
+        #tweaks-panel.open {
+            display: block;
+        }
+        
+        .tw-title {
+            font-family: 'Shippori Mincho', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--amber);
+            margin-bottom: 14px;
+            letter-spacing: 0.08em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .tw-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--ink-light);
+            line-height: 1;
+            padding: 4px;
+        }
+        
+        .tw-group {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--line-soft);
+        }
+        
+        .tw-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .tw-label {
             font-size: 0.78rem;
-            color: var(--ink-faint);
-        }
-        /* ── アニメーション ── */
-        
-        [data-reveal] {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+            color: var(--ink-mid);
+            margin-bottom: 8px;
+            font-weight: 500;
         }
         
-        [data-reveal].is-visible {
-            opacity: 1;
-            transform: translateY(0);
+        .tw-slider {
+            width: 100%;
+            accent-color: var(--amber);
         }
         
-        .stagger>* {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+        .tw-val {
+            float: right;
+            color: var(--amber);
+            font-weight: 700;
+            font-size: 0.75rem;
         }
         
-        .stagger.is-visible>*:nth-child(1) {
-            transition-delay: 0.05s;
+        .tw-chips {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
         }
         
-        .stagger.is-visible>*:nth-child(2) {
-            transition-delay: 0.12s;
+        .tw-chip {
+            padding: 6px 12px;
+            border-radius: 100px;
+            background: white;
+            border: 1px solid var(--line);
+            font-size: 0.75rem;
+            cursor: pointer;
+            color: var(--ink-mid);
+            font-family: inherit;
+            transition: all .2s;
         }
         
-        .stagger.is-visible>*:nth-child(3) {
-            transition-delay: 0.19s;
+        .tw-chip.active {
+            background: var(--amber);
+            border-color: var(--amber);
+            color: white;
+            font-weight: 600;
         }
         
-        .stagger.is-visible>*:nth-child(4) {
-            transition-delay: 0.26s;
+        .tw-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
         }
         
-        .stagger.is-visible>*:nth-child(5) {
-            transition-delay: 0.33s;
+        .tw-switch {
+            width: 40px;
+            height: 22px;
+            background: #ddd;
+            border-radius: 100px;
+            position: relative;
+            transition: background .2s;
         }
         
-        .stagger.is-visible>*:nth-child(6) {
-            transition-delay: 0.40s;
+        .tw-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+            transition: left .2s;
         }
         
-        .stagger.is-visible>* {
-            opacity: 1;
-            transform: translateY(0);
+        .tw-toggle.on .tw-switch {
+            background: var(--amber);
         }
         
-        @keyframes drift {
-            0%,
-            100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-12px) rotate(0.5deg);
-            }
+        .tw-toggle.on .tw-switch::after {
+            left: 20px;
         }
-        /* ── レスポンシブ ── */
+        /* ================================================== */
+        /*  RESPONSIVE                                        */
+        /* ================================================== */
         
-        @media (max-width: 1080px) {
-            .features-grid,
-            .persona-grid,
-            .cta-panels {
+        @media (max-width: 900px) {
+            .hero .container {
                 grid-template-columns: 1fr;
-            }
-            .steps-grid,
-            .worries-grid,
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .screen-card {
-                grid-template-columns: 1fr;
-                justify-items: center;
-            }
-            .screen-copy {
-                width: 100%;
-            }
-            .step-card::after {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 760px) {
-            .wrap {
-                width: min(calc(100% - 28px), var(--content));
-            }
-            .site-header {
-                position: static;
-            }
-            .header-inner {
-                align-items: start;
-                flex-direction: column;
-            }
-            .nav {
-                gap: 8px;
-                justify-content: flex-start;
+                gap: 20px;
             }
             .hero {
-                padding-top: 32px;
-            }
-            .section-shell {
-                padding: 28px;
-            }
-            .section-shell::before {
-                left: 28px;
-                right: 28px;
-            }
-            .steps-grid,
-            .worries-grid,
-            .stats-grid,
-            .features-grid,
-            .persona-grid {
-                grid-template-columns: 1fr;
-            }
-            .float-card {
-                position: static;
-                width: auto;
-                animation: none;
-            }
-            .hero-character {
-                position: static;
-                width: 140px;
-                animation: none;
-                margin: 0 auto;
+                padding: 120px 0 80px;
             }
             .hero-visual {
-                flex-direction: column;
-                align-items: center;
-                gap: 16px;
+                height: 460px;
+                margin-top: 20px;
+            }
+            .hero-kimono-bg {
+                width: 260px;
+                left: 5%;
+            }
+            .hero-character {
+                width: 240px;
+                right: 0;
+                bottom: -20px;
             }
             .phone {
-                width: 100%;
-                max-width: 280px;
-                height: 550px;
+                width: 200px;
+                height: 410px;
+                left: 35%;
+                top: 20px;
             }
-            .hero-actions,
-            .cta-actions {
-                flex-direction: column;
+            .decor-fan-top {
+                width: 180px;
+                top: 40px;
+                right: 10px;
             }
-            .btn {
-                width: 100%;
-                justify-content: center;
+            .decor-flower-1 {
+                width: 60px;
             }
-            .cta-content {
-                flex-direction: column;
-                text-align: center;
+            .decor-petals-1 {
+                display: none;
             }
-            .cta-character {
-                width: 140px;
-                animation: none;
+            .decor-tassel {
+                width: 70px;
+                left: 60%;
+                top: 12%;
             }
-            .cta-card {
-                padding: 28px;
+            h1.hero-title {
+                font-size: 2.1rem;
             }
-            .cta-panels {
+            .hero-eyebrow {
+                font-size: 0.75rem;
+            }
+            .features-grid {
                 grid-template-columns: 1fr;
             }
-            .footer-links {
-                gap: 16px;
+            .voice-grid {
+                grid-template-columns: 1fr;
+            }
+            .demo-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .features-fan-bg {
+                width: 220px;
+                left: -100px;
+                top: 40px;
+            }
+            .store-btns {
+                gap: 10px;
+            }
+            .btn-store {
+                min-width: 180px;
+            }
+            .about-flower-l,
+            .about-flower-r {
+                width: 100px;
+                opacity: 0.3;
+            }
+            #tweaks-panel {
+                right: 10px;
+                bottom: 10px;
+                width: calc(100vw - 20px);
+                max-width: 280px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 0 20px;
+            }
+            .hero {
+                padding: 110px 0 60px;
+            }
+            .hero-visual {
+                height: 400px;
+            }
+            .phone {
+                width: 170px;
+                height: 350px;
+                left: 38%;
+            }
+            .hero-kimono-bg {
+                width: 220px;
+            }
+            .hero-character {
+                width: 200px;
+            }
+            nav .nav-logo-text {
+                font-size: 1.1rem;
+            }
+            nav .nav-logo img {
+                width: 36px;
+                height: 36px;
+            }
+            .nav-cta {
+                padding: 8px 14px;
+                font-size: 0.78rem;
+            }
+            .about,
+            .features,
+            .demo,
+            .voice,
+            .cta {
+                padding-top: 80px;
+                padding-bottom: 80px;
+            }
+            .feature-num {
+                font-size: 100px;
             }
         }
     </style>
 </head>
 
 <body>
-    <header class="site-header">
-        <div class="wrap header-inner">
-            <a class="brand" href="#top">
-                <img class="brand-logo" src="kimono_illust.png" alt="きもの日和 ロゴ">
-                <div class="brand-text">
-                    <strong>きもの日和</strong>
-                    <span>着物コーディネートアプリ</span>
-                </div>
+
+    <!-- ================================================== -->
+    <!--  NAV                                               -->
+    <!-- ================================================== -->
+    <nav id="nav">
+        <div class="container">
+            <a href="#" class="nav-logo">
+                <img src="assets/images/logo01.png" alt="きもの日和">
+                <span class="nav-logo-text">きもの日和</span>
             </a>
-            <nav class="nav" aria-label="ページ内ナビゲーション">
-                <a href="#features">できること</a>
-                <a href="#howto">使い方</a>
-                <a href="#screens">画面</a>
-                <a href="#for-you">こんな方に</a>
-                <a class="btn btn-primary" href="#cta">無料ではじめる</a>
-            </nav>
+            <a href="#cta" class="nav-cta">
+      アプリをダウンロード
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
         </div>
-    </header>
+    </nav>
 
-    <main id="top">
-        <!-- ═══ HERO ═══ -->
-        <section class="hero" data-reveal>
-            <div class="wrap">
-                <div class="hero-badge">
-                    <span class="eyebrow">着物コーディネートアプリ</span>
-                </div>
-                <h1 class="hero-title">あなたの着物ライフを、もっと<span class="accent">楽しく</span>、もっと<span class="accent">自由に</span>。</h1>
-                <p class="hero-lead">「今日は何を着よう？」――着物は好きだけど、組み合わせに迷ってしまう。<br>あのお気に入りの帯、どの着物と合わせようかな……。</p>
-                <p class="hero-lead">そんなあなたのコーディネートを、『きもの日和』がそっとお手伝いします。</p>
-                <p class="hero-lead">お手持ちの着物・帯・小物をスマホで撮って登録。<br>画面の上でパズルのように、自由な組み合わせをシミュレーターで試せます。<br>AIがあなたのクローゼットの中から、新しい色の重なりを提案。</p>
-                <p class="hero-lead">自分らしい着こなしを、もっと軽やかに。<br>迷う時間さえも、もっと楽しく、心地よいひとときに。</p>
-                <div class="hero-actions">
-                    <a class="btn btn-primary" href="#cta">無料ではじめる</a>
-                    <a class="btn btn-secondary" href="#features">できることを見る</a>
-                </div>
 
-                <div class="hero-visual">
-                    <div class="float-card left">
-                        <h4>スマホでコーデ確認</h4>
-                        <p>登録した着物や帯をレイヤーで重ねて、全身のバランスを着る前にチェック。</p>
-                        <div class="chip-inline">
-                            <span>アイテムを登録</span>
-                            <span>自由に組み合わせ</span>
+    <!-- ================================================== -->
+    <!--  HERO                                              -->
+    <!-- ================================================== -->
+    <section class="hero">
+        <img src="assets/images/fan.png" class="hero-decor decor-fan-top" alt="" aria-hidden="true">
+        <img src="assets/images/flower.png" class="hero-decor decor-flower-1" alt="" aria-hidden="true">
+        <img src="assets/images/petals.png" class="hero-decor decor-petals-1" alt="" aria-hidden="true">
+        <img src="assets/images/petals.png" class="hero-decor decor-petals-2" alt="" aria-hidden="true">
+        <img src="assets/images/tassel.png" class="hero-decor decor-tassel" alt="" aria-hidden="true">
+        <img src="assets/images/flower.png" class="hero-decor decor-flower-2" alt="" aria-hidden="true">
+
+        <div class="container">
+            <div class="hero-text">
+                <div class="hero-eyebrow">着物管理アプリ</div>
+                <h1 class="hero-title mincho">
+                    手持ちの着物を、<br> 迷わず一着に。
+                    <br>
+                    <span class="highlight">きもの日和。</span>
+                </h1>
+                <p class="hero-desc">
+                    あなたの箪笥を、そのままスマホの中へ。<br> 季節・TPO・お出かけ先に合わせて、AIが手持ちから
+                    <br> ぴったりの一着を見つけてくれます。
+                </p>
+                <div class="store-btns">
+                    <a href="#" class="btn-store" aria-label="App Storeで入手">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                        <div class="btn-store-txt">
+                            <span class="small">iPhone の方はこちら</span>
+                            <span class="big">App Store で入手</span>
+                        </div>
+                    </a>
+                    <a href="#" class="btn-store" aria-label="Google Playで入手">
+                        <svg viewBox="0 0 24 24"><defs><linearGradient id="gp1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34B8FF"/><stop offset="1" stop-color="#2E7BFF"/></linearGradient><linearGradient id="gp2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFD90D"/><stop offset="1" stop-color="#FFA200"/></linearGradient><linearGradient id="gp3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FC5C78"/><stop offset="1" stop-color="#E31D52"/></linearGradient><linearGradient id="gp4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22D884"/><stop offset="1" stop-color="#0AA164"/></linearGradient></defs><path fill="url(#gp1)" d="M3.5 2.2c-.3.3-.5.8-.5 1.4v17c0 .6.2 1.1.5 1.4L13.5 12z"/><path fill="url(#gp2)" d="M17 8.4l-3.5 3.6 3.5 3.6 3.8-2.2c1-.6 1-2.2 0-2.8z"/><path fill="url(#gp3)" d="M3.5 22c.4.4 1.1.5 1.8.1L17 15.6 13.5 12z"/><path fill="url(#gp4)" d="M13.5 12L17 8.4 5.3 1.9c-.7-.4-1.4-.3-1.8.1z"/></svg>
+                        <div class="btn-store-txt">
+                            <span class="small">Android の方はこちら</span>
+                            <span class="big">Google Play で入手</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <img src="assets/images/kimono.png" class="hero-kimono-bg" alt="" aria-hidden="true">
+                <div class="phone">
+                    <div class="phone-screen">
+                        <div class="phone-notch"></div>
+                        <div class="ui-status">
+                            <span>9:41</span>
+                            <span>●●●</span>
+                        </div>
+                        <div class="ui-header">
+                            <div class="ui-title">きもの日和</div>
+                        </div>
+                        <div class="ui-tabs">
+                            <div class="ui-tab active">着物</div>
+                            <div class="ui-tab">帯</div>
+                            <div class="ui-tab">小物</div>
+                        </div>
+                        <div class="ui-grid">
+                            <div class="ui-card">
+                                <div class="ui-card-img ui-c1"></div>
+                                <div class="ui-card-label">着始めの着物</div>
+                            </div>
+                            <div class="ui-card">
+                                <div class="ui-card-img ui-c2"></div>
+                                <div class="ui-card-label">着始めの着物</div>
+                            </div>
+                            <div class="ui-card">
+                                <div class="ui-card-img ui-c3"></div>
+                                <div class="ui-card-label">着始めの着物</div>
+                            </div>
+                            <div class="ui-card">
+                                <div class="ui-card-img ui-c4"></div>
+                                <div class="ui-card-label">着始めの着物</div>
+                            </div>
+                            <div class="ui-card">
+                                <div class="ui-card-img ui-c5"></div>
+                                <div class="ui-card-label">着始めの着物</div>
+                            </div>
+                            <div class="ui-card">
+                                <div class="ui-card-img ui-c6"></div>
+                                <div class="ui-card-label">着始めの着物</div>
+                            </div>
+                        </div>
+                        <div class="ui-fab">+</div>
+                        <div class="ui-bottom">
+                            <div class="ui-ico active">
+                                <div class="ui-ico-dot"></div>一覧</div>
+                            <div class="ui-ico">
+                                <div class="ui-ico-dot"></div>記録</div>
+                            <div class="ui-ico">
+                                <div class="ui-ico-dot"></div>探す</div>
+                            <div class="ui-ico">
+                                <div class="ui-ico-dot"></div>通知</div>
+                            <div class="ui-ico">
+                                <div class="ui-ico-dot"></div>マイ</div>
                         </div>
                     </div>
+                </div>
+                <img src="assets/images/character.png" class="hero-character" alt="着物を着た女性のイラスト">
+            </div>
+        </div>
+    </section>
 
-                    <div class="phone" aria-label="ホーム画面イメージ">
-                        <div class="phone-screen">
-                            <div class="phone-status"><span>9:41</span><span>5G 100%</span></div>
-                            <div class="phone-header"><strong>きもの日和</strong><span>今日の装い</span></div>
-                            <div class="phone-body">
-                                <div class="phone-banner">
-                                    <strong>今日のコーディネート</strong>
-                                    <p>春の外出向けに、薄青の小紋と軽やかな名古屋帯を合わせて。</p>
+    <!-- Wave divider between hero and about -->
+    <div class="wave-divider">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path d="M0 40 C240 0 480 80 720 40 C960 0 1200 80 1440 40 L1440 80 L0 80 Z" fill="#ffffff"/>
+  </svg>
+    </div>
+
+
+    <!-- ================================================== -->
+    <!--  ABOUT                                             -->
+    <!-- ================================================== -->
+    <section class="about">
+        <img src="assets/images/petals.png" class="about-flower-l" alt="" aria-hidden="true">
+        <img src="assets/images/petals.png" class="about-flower-r" alt="" aria-hidden="true">
+
+        <div class="container">
+            <div class="reveal">
+                <div class="about-eyebrow">着物管理アプリ</div>
+                <h2 class="about-title mincho"><span class="name">きもの日和</span><span class="q">とは？</span></h2>
+                <p class="about-text">
+                    手持ちの着物・帯・小物を写真で登録して、<strong>スマホの上でコーディネートを試せる</strong>アプリです。 AIがあなたの手持ちからベストな組み合わせを提案してくれるので、 着物初心者の方でも、今日の気分に合った一着にすぐ出会えます。
+                </p>
+                <div class="about-ornament">
+                    <div class="line"></div>
+                    <div class="dot"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================================================== -->
+    <!--  FEATURES                                          -->
+    <!-- ================================================== -->
+    <section class="features">
+        <img src="assets/images/fan.png" class="features-fan-bg" alt="" aria-hidden="true">
+        <img src="assets/images/temari.png" class="features-temari-bg" alt="" aria-hidden="true">
+
+        <div class="container">
+            <div class="section-head reveal">
+                <div class="section-eyebrow">FEATURES</div>
+                <h2 class="section-title mincho">きもの日和で、できること</h2>
+            </div>
+
+            <div class="features-grid">
+                <!-- Card 1 -->
+                <div class="feature-card reveal">
+                    <div class="feature-num mincho">1</div>
+                    <div class="feature-screen">
+                        <div class="feature-phone">
+                            <div class="fp1-header">
+                                <div class="fp1-title">MY CLOSET</div>
+                                <div class="fp1-sub">8 items · 着物</div>
+                            </div>
+                            <div class="fp1-grid">
+                                <div class="fp1-item ui-c1"></div>
+                                <div class="fp1-item ui-c2"></div>
+                                <div class="fp1-item ui-c5"></div>
+                                <div class="fp1-item ui-c3"></div>
+                                <div class="fp1-item ui-c6"></div>
+                                <div class="fp1-item ui-c4"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-body">
+                        <span class="feature-badge mincho"><span class="kmark">❶</span>STEP ONE</span>
+                        <h3 class="feature-name">撮って登録、<br>デジタルクローゼット</h3>
+                        <p class="feature-desc">
+                            着物・帯・小物を写真で登録して一覧管理。 箪笥を開けなくても、手持ちのアイテムがいつでもどこでも確認できます。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="feature-card reveal">
+                    <div class="feature-num mincho">2</div>
+                    <div class="feature-screen">
+                        <div class="feature-phone">
+                            <div class="fp2">
+                                <div class="fp2-title">SIMULATOR</div>
+                                <div class="fp2-kimono">
+                                    <img src="assets/images/kimono.png" alt="">
                                 </div>
-                                <div class="phone-cards">
-                                    <div class="phone-card">
-                                        <strong>クローゼット</strong>
-                                        <p>着物 12 / 帯 8</p>
-                                        <div class="mini-meter"><span style="width: 72%; background: linear-gradient(90deg, var(--indigo), var(--sage));"></span></div>
+                                <div class="fp2-swatches">
+                                    <div class="fp2-sw" style="background:#8B7355"></div>
+                                    <div class="fp2-sw active" style="background:#A07840"></div>
+                                    <div class="fp2-sw" style="background:#C8A878"></div>
+                                    <div class="fp2-sw" style="background:#F5DDD3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-body">
+                        <span class="feature-badge mincho"><span class="kmark">❷</span>STEP TWO</span>
+                        <h3 class="feature-name">スマホの上で、<br>着せ替え体験</h3>
+                        <p class="feature-desc">
+                            平置きスタイルで着物と帯の組み合わせをシミュレーション。 実際に出して重ねなくても、合わせを自由に試せます。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="feature-card reveal">
+                    <div class="feature-num mincho">3</div>
+                    <div class="feature-screen">
+                        <div class="feature-phone">
+                            <div class="fp3">
+                                <div class="fp3-header">
+                                    <div class="fp3-title">AI SUGGEST</div>
+                                </div>
+                                <div class="fp3-bubble user">4月のお花見に、<br>明るい一着を</div>
+                                <div class="fp3-bubble">山吹色の小紋に<br>白地の帯でいかが？</div>
+                                <div class="fp3-result">
+                                    <div class="fp3-result-title">提案されたコーデ</div>
+                                    <div class="fp3-result-items">
+                                        <div class="fp3-chip ui-c1"></div>
+                                        <div class="fp3-chip ui-c6"></div>
+                                        <div class="fp3-chip ui-c3"></div>
                                     </div>
-                                    <div class="phone-card">
-                                        <strong>着用記録</strong>
-                                        <p>最近のコーデ 24件</p>
-                                        <div class="mini-meter"><span style="width: 58%; background: linear-gradient(90deg, var(--clay), var(--gold));"></span></div>
-                                    </div>
-                                </div>
-                                <div class="phone-chips">
-                                    <span class="phone-chip">写真登録</span>
-                                    <span class="phone-chip">コーデ作成</span>
-                                    <span class="phone-chip">AI提案</span>
-                                    <span class="phone-chip">日記</span>
-                                    <span class="phone-chip">店舗検索</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="float-card right">
-                        <h4>AIがコーデを提案</h4>
-                        <p>季節やシーンに合わせて、お手持ちの着物からAIが最適な組み合わせを3パターン提案します。</p>
-                        <div class="chip-inline">
-                            <span>季節対応</span>
-                            <span>シーン別提案</span>
-                        </div>
-                    </div>
-
-                    <div class="hero-character" aria-hidden="true">
-                        <img src="character.png" alt="" loading="lazy">
+                    <div class="feature-body">
+                        <span class="feature-badge mincho"><span class="kmark">❸</span>STEP THREE</span>
+                        <h3 class="feature-name">AIが、コーディネート<br>を提案</h3>
+                        <p class="feature-desc">
+                            季節やTPOに合わせて、手持ちの中からベストな組み合わせをAIが見つけてくれます。 着物初心者の方にもやさしいアドバイス付き。
+                        </p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <div class="divider"><span></span></div>
 
-        <!-- ═══ FEATURES ═══ -->
-        <section class="section" id="features">
-            <div class="wrap section-shell glass" data-reveal>
-                <div class="section-head">
-                    <h2 class="section-title">きもの日和でできること</h2>
-                    <p class="section-lead">着物の管理からコーディネート、AI提案、着用記録、着物店検索まで。あなたの着物ライフに必要なことが、このアプリひとつで揃います。</p>
+    <!-- ================================================== -->
+    <!--  DEMO                                              -->
+    <!-- ================================================== -->
+    <section class="demo" id="demo">
+        <img src="assets/images/flower.png" class="demo-flower" alt="" aria-hidden="true">
+        <img src="assets/images/petals.png" class="demo-petals" alt="" aria-hidden="true">
+
+        <div class="container">
+            <div class="demo-inner">
+                <div class="demo-text reveal">
+                    <div class="section-eyebrow">TRY AI SUGGEST</div>
+                    <h2 class="demo-title mincho">
+                        今日のシーンを選ぶだけ。<br>
+                        <span class="amber">AIが、あなたの一着を。</span>
+                    </h2>
+                    <p class="demo-desc">
+                        「お花見に行きたい」「茶会に呼ばれた」── シーンを選ぶだけで、手持ちから最適な組み合わせをご提案。
+                        <b>格・季節感・相性</b>まで、ちゃんと考えています。
+                    </p>
+                    <ul class="demo-list">
+                        <li>
+                            <div class="demo-tick">✓</div>
+                            <div><b>季節を読む</b>　二十四節気に沿った配色提案</div>
+                        </li>
+                        <li>
+                            <div class="demo-tick">✓</div>
+                            <div><b>格を揃える</b>　TPOに合わせた礼装の目安</div>
+                        </li>
+                        <li>
+                            <div class="demo-tick">✓</div>
+                            <div><b>記録を活かす</b>　過去のコーデ履歴から学習</div>
+                        </li>
+                    </ul>
                 </div>
 
-                <div class="features-grid stagger" data-reveal>
-                    <article class="feature-card">
-                        <div class="feature-icon closet"></div>
-                        <div>
-                            <h3>アイテム管理</h3>
-                            <p>着物・帯・小物を写真で登録。<br>あなたのタンスを、いつでも持ち歩けるデジタルクローゼットに。</p>
+                <div class="reveal">
+                    <div class="demo-card">
+                        <div class="demo-card-head">
+                            <div class="demo-card-title">AI SUGGEST — 体験版</div>
+                            <div class="demo-card-badge">DEMO</div>
                         </div>
-                    </article>
-
-                    <article class="feature-card">
-                        <div class="feature-icon coord"></div>
-                        <div>
-                            <h3>コーデ作成</h3>
-                            <p>手持ちのアイテムを自由に組み合わせて、シミュレーション。<br>お気に入りの組み合わせは、そのまま大切に保存できます。</p>
+                        <div class="demo-scene" id="demo-scenes">
+                            <button class="demo-scene-btn active" data-scene="hanami">
+              <span class="scn mincho">お花見</span>
+              <span class="scn-sub">4月・カジュアル</span>
+            </button>
+                            <button class="demo-scene-btn" data-scene="chakai">
+              <span class="scn mincho">お茶会</span>
+              <span class="scn-sub">5月・準礼装</span>
+            </button>
+                            <button class="demo-scene-btn" data-scene="natsu">
+              <span class="scn mincho">夏の宵</span>
+              <span class="scn-sub">7月・ゆかた</span>
+            </button>
+                            <button class="demo-scene-btn" data-scene="shichigosan">
+              <span class="scn mincho">七五三</span>
+              <span class="scn-sub">11月・訪問着</span>
+            </button>
                         </div>
-                    </article>
-
-                    <article class="feature-card">
-                        <div class="feature-icon diary"></div>
-                        <div>
-                            <h3>きもの日記</h3>
-                            <p>着た日、場所、その時の思い出をコーデと一緒に。<br>カレンダーで着用履歴を振り返れる、あなただけの着物ダイアリー。</p>
-                        </div>
-                    </article>
-
-                    <article class="feature-card">
-                        <div class="feature-icon calendar"></div>
-                        <div>
-                            <h3>着用カレンダー</h3>
-                            <p>「いつ、どの着物を着たか」をひと目で。<br>着物と過ごす日々が、もっと愛おしくなる記録帳です。</p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <div class="divider"><span></span></div>
-
-        <!-- ═══ HOW TO USE ═══ -->
-        <section class="section" id="howto">
-            <div class="wrap section-shell glass" data-reveal>
-                <div class="section-head">
-                    <h2 class="section-title">かんたん3ステップで、<br>今日のコーデが決まる</h2>
-                    <p class="section-lead">むずかしい操作は一切なし。写真を撮って、組み合わせて、保存するだけ。着物のコーディネートがぐっと身近になります。</p>
-                </div>
-
-                <div class="steps-grid stagger" data-reveal>
-                    <article class="step-card">
-                        <span class="step-num">01</span>
-                        <h3>写真を撮って登録</h3>
-                        <p>着物や帯をスマホで撮影するだけ。カテゴリ・季節・色を設定して、あなただけのデジタルクローゼットに登録します。</p>
-                    </article>
-
-                    <article class="step-card">
-                        <span class="step-num">02</span>
-                        <h3>着せ替えてコーデを作る</h3>
-                        <p>登録したアイテムを画面上で重ねて、着物＋帯＋小物の組み合わせをシミュレーション。迷ったらAIにおまかせも。</p>
-                    </article>
-
-                    <article class="step-card">
-                        <span class="step-num">03</span>
-                        <h3>保存して記録する</h3>
-                        <p>お気に入りのコーデを保存。着た日や場所も日記として記録して、あなたの着物アルバムに残しましょう。</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <div class="divider"><span></span></div>
-
-        <!-- ═══ SCREENS ═══ -->
-        <section class="section" id="screens">
-            <div class="wrap section-shell glass" data-reveal>
-                <div class="section-head">
-                    <h2 class="section-title">アプリの中をのぞいてみよう</h2>
-                    <p class="section-lead">実際のアプリ画面はこんな感じ。やわらかい和のデザインで、毎日開きたくなるアプリです。</p>
-                </div>
-
-                <div class="screens-grid stagger" data-reveal>
-                    <article class="screen-card">
-                        <div class="mini-phone">
-                            <div class="mini-phone-inner">
-                                <div class="mini-bar"><span>9:41</span><span>HOME</span></div>
-                                <div class="mini-hero-block">
-                                    <strong>今日の装い</strong>
-                                    <span>コーデとカレンダーを一覧</span>
-                                </div>
-                                <div class="mini-stack">
-                                    <div class="mini-grid-2">
-                                        <div class="mini-tile"></div>
-                                        <div class="mini-tile" style="background: rgba(45,74,110,0.14);"></div>
-                                    </div>
-                                    <div class="mini-block"><span>クイックアクション / 統計</span></div>
-                                </div>
+                        <div class="demo-suggest" id="demo-suggest">
+                            <div class="demo-sug-head">
+                                <div class="demo-sug-dot"></div>
+                                <div class="demo-sug-label">AI からのご提案</div>
                             </div>
-                        </div>
-                        <div class="screen-copy">
-                            <div class="label">ホーム画面</div>
-                            <h3>開くたびに「今日の一着」</h3>
-                            <p>最近のコーディネート、クローゼットの統計、着用カレンダーがひと目でわかるホーム画面。全国の着物店舗検索への導線もあります。</p>
-                            <ul>
-                                <li>クローゼット統計で手持ちアイテムを把握</li>
-                                <li>最近の日記・コーデをカード表示</li>
-                                <li>ワンタップで写真登録やコーデ作成へ</li>
-                            </ul>
-                        </div>
-                    </article>
-
-                    <article class="screen-card">
-                        <div class="mini-phone">
-                            <div class="mini-phone-inner">
-                                <div class="mini-bar"><span>9:41</span><span>ITEMS</span></div>
-                                <div class="mini-stack">
-                                    <div class="mini-block"><span>カテゴリ / 色 / 検索</span></div>
-                                    <div class="mini-grid-2">
-                                        <div class="mini-tile"></div>
-                                        <div class="mini-tile"></div>
-                                        <div class="mini-tile"></div>
-                                        <div class="mini-tile"></div>
-                                    </div>
-                                    <div class="mini-block"><span>着物・帯・小物を切り替え</span></div>
-                                </div>
+                            <div class="demo-sug-body mincho" id="sug-body">
+                                山吹色の小紋に白地の名古屋帯。薄桃の帯揚げで、春の風を添えて。
                             </div>
-                        </div>
-                        <div class="screen-copy">
-                            <div class="label">アイテム一覧</div>
-                            <h3>あなただけの着物クローゼット</h3>
-                            <p>登録した着物・帯・小物を一覧で管理。カテゴリタブで素早く切り替え、検索やフィルターで「あの着物どこだっけ？」がなくなります。</p>
-                            <ul>
-                                <li>カテゴリタブ（着物・帯・帯揚げ・帯締め・その他）</li>
-                                <li>名前・種類・産地・タグで検索</li>
-                                <li>季節・色・格・素材でフィルター</li>
-                            </ul>
-                        </div>
-                    </article>
-
-                    <article class="screen-card">
-                        <div class="mini-phone">
-                            <div class="mini-phone-inner">
-                                <div class="mini-bar"><span>9:41</span><span>CREATE</span></div>
-                                <div class="mini-hero-block" style="background: linear-gradient(135deg, rgba(45,74,110,0.9), rgba(111,132,100,0.8));">
-                                    <strong>コーデ作成</strong>
-                                    <span>レイヤーで重ねて確認</span>
-                                </div>
-                                <div class="mini-stack">
-                                    <div class="mini-block"><span>着物 / 帯 / 帯揚げ / 帯締め / 半衿</span></div>
-                                    <div class="mini-block"><span>保存前に全体バランスを確認</span></div>
-                                </div>
+                            <div class="demo-sug-items" id="sug-items">
+                                <div class="demo-sug-item ui-c1"><span class="demo-sug-item-label">着物</span></div>
+                                <div class="demo-sug-item ui-c6"><span class="demo-sug-item-label">帯</span></div>
+                                <div class="demo-sug-item ui-c3"><span class="demo-sug-item-label">小物</span></div>
                             </div>
-                        </div>
-                        <div class="screen-copy">
-                            <div class="label">コーデ作成</div>
-                            <h3>着る前に「着てみる」</h3>
-                            <p>着物や帯をレイヤーで重ねて、全身コーデを平置きシミュレーション。帯締めや帯揚げも加えて、じっくり検討できます。迷ったらAI提案ボタンでおまかせも。</p>
-                            <ul>
-                                <li>5つのレイヤーを自由に組み合わせ</li>
-                                <li>気に入ったコーデはそのまま保存</li>
-                                <li>AIコーデ提案への導線付き</li>
-                            </ul>
-                        </div>
-                    </article>
-
-                    <article class="screen-card">
-                        <div class="mini-phone">
-                            <div class="mini-phone-inner">
-                                <div class="mini-bar"><span>9:41</span><span>DIARY</span></div>
-                                <div class="mini-hero-block" style="min-height: 74px; background: linear-gradient(135deg, rgba(111,132,100,0.88), rgba(45,74,110,0.76));">
-                                    <strong>きもの日記</strong>
-                                    <span>いつ、どこで、何を着たか</span>
-                                </div>
-                                <div class="mini-stack">
-                                    <div class="mini-block"><span>日付 / 場所 / メモ / コーデ</span></div>
-                                    <div class="mini-block"><span>カレンダーで着用履歴を一覧</span></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="screen-copy">
-                            <div class="label">きもの日記</div>
-                            <h3>お出かけの思い出を記録</h3>
-                            <p>着た日、場所、メモをコーディネートと一緒に保存。写真も複数添付できます。タイムライン表示とカレンダー表示を切り替えて、着物との思い出を振り返りましょう。</p>
-                            <ul>
-                                <li>コーデと紐づけた着用記録</li>
-                                <li>写真を複数枚添付可能</li>
-                                <li>カレンダー・タイムライン切り替え</li>
-                            </ul>
-                        </div>
-                    </article>
-
-                    <article class="screen-card">
-                        <div class="mini-phone">
-                            <div class="mini-phone-inner">
-                                <div class="mini-bar"><span>9:41</span><span>STORE</span></div>
-                                <div class="mini-hero-block" style="background: linear-gradient(135deg, rgba(45,74,110,0.92), rgba(122,74,106,0.78));">
-                                    <strong>着物店検索</strong>
-                                    <span>全国の着物店を探す</span>
-                                </div>
-                                <div class="mini-stack">
-                                    <div class="mini-block"><span>地域タブ / キーワード検索</span></div>
-                                    <div class="mini-block"><span>店舗カード / マップ / 公式サイト</span></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="screen-copy">
-                            <div class="label">着物店検索</div>
-                            <h3>全国47都道府県の着物店を検索</h3>
-                            <p>北海道から沖縄まで、全国の着物店を地域別に検索できます。気になるお店はマップで場所を確認したり、公式サイトをチェックしたり。</p>
-                            <ul>
-                                <li>7つの地域タブで素早く絞り込み</li>
-                                <li>店名・住所でキーワード検索</li>
-                                <li>マップ表示・公式サイトへワンタップ</li>
-                            </ul>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <div class="divider"><span></span></div>
-
-        <!-- ═══ FOR YOU ═══ -->
-        <section class="section" id="for-you">
-            <div class="wrap section-shell glass" data-reveal>
-                <div class="section-head">
-                    <h2 class="section-title">こんな方におすすめです</h2>
-                    <p class="section-lead">着物初心者の方から、たくさんの着物をお持ちの上級者の方まで。すべての着物好きに寄り添うアプリです。</p>
-                </div>
-
-                <div class="persona-grid stagger" data-reveal>
-                    <article class="persona-card">
-                        <p>手持ちの着物を、美しく整理・記録したい</p>
-                    </article>
-
-                    <article class="persona-card">
-                        <p>毎日のコーデ選びを、もっと心ゆくまで楽しみたい</p>
-                    </article>
-
-                    <article class="persona-card">
-                        <p>その日の気分にぴったりの組み合わせを見つけたい</p>
-                    </article>
-
-                    <article class="persona-card">
-                        <p>着物との大切な思い出を、形に残していきたい</p>
-                    </article>
-                </div>
-
-
-            </div>
-        </section>
-
-        <!-- ═══ CTA ═══ -->
-        <section class="cta" id="cta">
-            <div class="wrap">
-                <div class="cta-card glass" data-reveal>
-                    <div class="cta-content">
-                        <div class="cta-text">
-                            <h2>ダウンロードはこちら</h2>
-                            <div class="cta-actions">
-                                <a class="btn btn-white" href="#">App Storeからダウンロード</a>
-                                <a class="btn btn-outline" href="#">Google Playからダウンロード</a>
-                            </div>
-                        </div>
-                        <div class="cta-character" aria-hidden="true">
-                            <img src="character03.png" alt="" loading="lazy">
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <footer class="footer">
-        <div class="wrap footer-inner">
-            <div class="footer-brand"><img src="kimono_illust.png" alt="">きもの日和</div>
-            <div class="footer-links">
-                <a href="#features">できること</a>
-                <a href="#howto">使い方</a>
-                <a href="#screens">画面</a>
-                <a href="#for-you">こんな方に</a>
-                <a href="privacy_policy.html">プライバシーポリシー</a>
-                <a href="mailto:info@minoribi.jp">お問い合わせ</a>
+
+    <!-- ================================================== -->
+    <!--  VOICE                                             -->
+    <!-- ================================================== -->
+    <section class="voice">
+        <img src="assets/images/blob-yamabuki.png" class="voice-blob1" alt="" aria-hidden="true" onerror="this.style.display='none'">
+        <div class="container">
+            <div class="section-head reveal">
+                <div class="section-eyebrow">VOICE</div>
+                <h2 class="section-title mincho">お使いいただいた方の声</h2>
             </div>
-            <div class="footer-copy">&copy; 2025 きもの日和</div>
+            <div class="voice-grid">
+                <div class="voice-card reveal">
+                    <div class="voice-stars">★★★★★</div>
+                    <div class="voice-headline mincho">箪笥を開ける手間が、<br>なくなりました。</div>
+                    <p class="voice-text">
+                        実家の母から譲り受けた着物がたくさんあって、全部把握しきれていませんでした。写真で登録しておくと、出先でも手持ちがぱっと確認できて嬉しいです。
+                    </p>
+                    <div class="voice-person">
+                        <div class="voice-avatar">さ</div>
+                        <div class="voice-person-info">
+                            <div class="voice-name">さとみさん</div>
+                            <div class="voice-meta">着物歴 8年 / 東京</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="voice-card reveal">
+                    <div class="voice-stars">★★★★★</div>
+                    <div class="voice-headline mincho">初心者の私でも、<br>コーデが楽しめる。</div>
+                    <p class="voice-text">
+                        去年から着物を始めたばかりで、帯や小物の合わせ方がわからず困っていました。AIの提案が優しいので、教えてもらいながら学んでいる感覚で続けられます。
+                    </p>
+                    <div class="voice-person">
+                        <div class="voice-avatar">み</div>
+                        <div class="voice-person-info">
+                            <div class="voice-name">みなとさん</div>
+                            <div class="voice-meta">着物歴 1年 / 大阪</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="voice-card reveal">
+                    <div class="voice-stars">★★★★★</div>
+                    <div class="voice-headline mincho">出番のなかった一着に、<br>もう一度会えた。</div>
+                    <p class="voice-text">
+                        何年も着ていなかった着物をアプリで見返していたら「これ似合うかも」とAIに提案されて、久しぶりに袖を通しました。たんすの肥やしがコーデ候補に戻ってくる感覚です。
+                    </p>
+                    <div class="voice-person">
+                        <div class="voice-avatar">ゆ</div>
+                        <div class="voice-person-info">
+                            <div class="voice-name">ゆかりさん</div>
+                            <div class="voice-meta">着物歴 15年 / 京都</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================================================== -->
+    <!--  CTA                                               -->
+    <!-- ================================================== -->
+    <section class="cta" id="cta">
+        <img src="assets/images/petals.png" class="cta-petals" alt="" aria-hidden="true">
+        <img src="assets/images/flower.png" class="cta-flower" alt="" aria-hidden="true">
+        <div class="container cta-inner">
+            <div class="reveal">
+                <div class="cta-eyebrow">KIMONO BIYORI</div>
+                <h2 class="cta-title mincho">
+                    きもの日和を、<br>はじめましょう。
+                </h2>
+                <p class="cta-desc">
+                    あなたの着物ライフが、もっと楽しく、もっと自由に。<br> まずは手持ちの一着から、登録してみませんか？
+                </p>
+                <div class="cta-store">
+                    <a href="#" class="btn-store">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                        <div class="btn-store-txt">
+                            <span class="small">iPhone の方はこちら</span>
+                            <span class="big">App Store で入手</span>
+                        </div>
+                    </a>
+                    <a href="#" class="btn-store">
+                        <svg viewBox="0 0 24 24"><defs><linearGradient id="gp1b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34B8FF"/><stop offset="1" stop-color="#2E7BFF"/></linearGradient><linearGradient id="gp2b" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFD90D"/><stop offset="1" stop-color="#FFA200"/></linearGradient><linearGradient id="gp3b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FC5C78"/><stop offset="1" stop-color="#E31D52"/></linearGradient><linearGradient id="gp4b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22D884"/><stop offset="1" stop-color="#0AA164"/></linearGradient></defs><path fill="url(#gp1b)" d="M3.5 2.2c-.3.3-.5.8-.5 1.4v17c0 .6.2 1.1.5 1.4L13.5 12z"/><path fill="url(#gp2b)" d="M17 8.4l-3.5 3.6 3.5 3.6 3.8-2.2c1-.6 1-2.2 0-2.8z"/><path fill="url(#gp3b)" d="M3.5 22c.4.4 1.1.5 1.8.1L17 15.6 13.5 12z"/><path fill="url(#gp4b)" d="M13.5 12L17 8.4 5.3 1.9c-.7-.4-1.4-.3-1.8.1z"/></svg>
+                        <div class="btn-store-txt">
+                            <span class="small">Android の方はこちら</span>
+                            <span class="big">Google Play で入手</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="cta-note">無料でダウンロード・iOS 16 以降 / Android 8.0 以降対応</div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================================================== -->
+    <!--  FOOTER                                            -->
+    <!-- ================================================== -->
+    <footer>
+        <div class="container">
+            <div class="footer-brand">
+                <img src="assets/images/logo01.png" alt="">
+                <span>きもの日和</span>
+            </div>
+            <div>
+                <a href="privacy_policy.html">プライバシーポリシー</a> &nbsp;&nbsp;|&nbsp;&nbsp;
+                <span>© 2026 みのりび合同会社</span>
+            </div>
         </div>
     </footer>
 
+
+    <!-- ================================================== -->
+    <!--  TWEAKS PANEL                                      -->
+    <!-- ================================================== -->
+    <div id="tweaks-panel">
+        <div class="tw-title">
+            <span>Tweaks</span>
+            <button class="tw-close" id="tw-close">×</button>
+        </div>
+
+        <div class="tw-group">
+            <div class="tw-label">装飾の強さ <span class="tw-val" id="decor-val">100%</span></div>
+            <input type="range" class="tw-slider" id="decor-slider" min="0" max="150" step="10">
+        </div>
+
+        <div class="tw-group">
+            <div class="tw-label">アクセント色</div>
+            <div class="tw-chips" id="accent-chips">
+                <button class="tw-chip" data-accent="amber">琥珀茶</button>
+                <button class="tw-chip" data-accent="indigo">藍</button>
+                <button class="tw-chip" data-accent="sakura">桜</button>
+                <button class="tw-chip" data-accent="sumi">墨</button>
+            </div>
+        </div>
+
+        <div class="tw-group">
+            <div class="tw-label">キャラクター</div>
+            <div class="tw-chips" id="char-chips">
+                <button class="tw-chip" data-char="character">立ち</button>
+                <button class="tw-chip" data-char="character_teageru">手上げ</button>
+                <button class="tw-chip" data-char="character_spring_1">春</button>
+                <button class="tw-chip" data-char="none">非表示</button>
+            </div>
+        </div>
+
+        <div class="tw-group">
+            <div class="tw-toggle" id="demo-toggle">
+                <div class="tw-label" style="margin-bottom:0">AIデモを表示</div>
+                <div class="tw-switch"></div>
+            </div>
+        </div>
+    </div>
+
+
     <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
+        /* ================================================== */
+        /*  NAV SCROLL                                        */
+        /* ================================================== */
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        }, {
+            passive: true
+        });
+
+
+        /* ================================================== */
+        /*  REVEAL ON SCROLL                                  */
+        /* ================================================== */
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('in');
+                    io.unobserve(e.target);
                 }
             });
         }, {
             threshold: 0.12,
-            rootMargin: '0px 0px -40px 0px'
+            rootMargin: '-40px'
+        });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+
+        /* ================================================== */
+        /*  AI DEMO                                           */
+        /* ================================================== */
+        const scenes = {
+            hanami: {
+                title: '山吹色の小紋に白地の名古屋帯。薄桃の帯揚げで、春の風を添えて。',
+                items: ['ui-c1', 'ui-c6', 'ui-c3']
+            },
+            chakai: {
+                title: '色無地に袋帯を合わせて、静かに整った佇まい。帯揚げは柔らかな若草で。',
+                items: ['ui-c4', 'ui-c2', 'ui-c5']
+            },
+            natsu: {
+                title: '藍の麻地ゆかたに半幅帯。麻の葉文の帯留で、涼やかに。',
+                items: ['ui-c2', 'ui-c5', 'ui-c6']
+            },
+            shichigosan: {
+                title: '訪問着に袋帯、格調高く。薄紅の帯揚げで、お祝いの日を華やかに。',
+                items: ['ui-c3', 'ui-c1', 'ui-c6']
+            }
+        };
+        const demoScenes = document.getElementById('demo-scenes');
+        const sugBody = document.getElementById('sug-body');
+        const sugItems = document.getElementById('sug-items');
+
+        if (demoScenes) {
+            demoScenes.addEventListener('click', e => {
+                const btn = e.target.closest('.demo-scene-btn');
+                if (!btn) return;
+                demoScenes.querySelectorAll('.demo-scene-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const scn = scenes[btn.dataset.scene];
+                sugBody.style.opacity = 0;
+                sugItems.style.opacity = 0;
+                setTimeout(() => {
+                    sugBody.textContent = scn.title;
+                    [...sugItems.children].forEach((el, i) => {
+                        el.firstElementChild && el.firstElementChild.remove();
+                        el.className = 'demo-sug-item ' + scn.items[i];
+                        const lbl = document.createElement('span');
+                        lbl.className = 'demo-sug-item-label';
+                        lbl.textContent = ['着物', '帯', '小物'][i];
+                        el.appendChild(lbl);
+                    });
+                    sugBody.style.opacity = 1;
+                    sugItems.style.opacity = 1;
+                }, 200);
+            });
+        }
+
+
+        /* ================================================== */
+        /*  TWEAKS                                            */
+        /* ================================================== */
+        const defaults = window.TWEAKS;
+        const state = Object.assign({}, defaults);
+
+        const accents = {
+            amber: {
+                main: '#6C2F00',
+                dark: '#4A1F00',
+                light: '#A05A35',
+                mid: '#8A4418'
+            },
+            indigo: {
+                main: '#1E3A5F',
+                dark: '#0F2847',
+                light: '#3D5F87',
+                mid: '#2B4A73'
+            },
+            sakura: {
+                main: '#A13352',
+                dark: '#751F3A',
+                light: '#C25573',
+                mid: '#8D2A48'
+            },
+            sumi: {
+                main: '#2B2520',
+                dark: '#1A1610',
+                light: '#4D4638',
+                mid: '#3B352E'
+            },
+        };
+
+        function applyState() {
+            // decor
+            document.documentElement.style.setProperty('--decor', state.decorIntensity);
+            const decorVal = document.getElementById('decor-val');
+            if (decorVal) decorVal.textContent = Math.round(state.decorIntensity * 100) + '%';
+            const decorSlider = document.getElementById('decor-slider');
+            if (decorSlider) decorSlider.value = state.decorIntensity * 100;
+
+            // accent
+            const a = accents[state.accent] || accents.amber;
+            const root = document.documentElement.style;
+            root.setProperty('--amber', a.main);
+            root.setProperty('--amber-dark', a.dark);
+            root.setProperty('--amber-light', a.light);
+            root.setProperty('--amber-mid', a.mid);
+            document.querySelectorAll('#accent-chips .tw-chip').forEach(c => {
+                c.classList.toggle('active', c.dataset.accent === state.accent);
+            });
+
+            // character
+            const char = document.querySelector('.hero-character');
+            if (char) {
+                if (state.character === 'none') char.style.display = 'none';
+                else {
+                    char.style.display = '';
+                    char.src = `assets/images/${state.character}.png`;
+                }
+            }
+            document.querySelectorAll('#char-chips .tw-chip').forEach(c => {
+                c.classList.toggle('active', c.dataset.char === state.character);
+            });
+
+            // demo
+            const demoSection = document.getElementById('demo');
+            if (demoSection) demoSection.style.display = state.showDemo ? '' : 'none';
+            const demoToggle = document.getElementById('demo-toggle');
+            if (demoToggle) demoToggle.classList.toggle('on', state.showDemo);
+        }
+
+        function persist(key, val) {
+            state[key] = val;
+            try {
+                window.parent.postMessage({
+                    type: '__edit_mode_set_keys',
+                    edits: {
+                        [key]: val
+                    }
+                }, '*');
+            } catch (_) {}
+            applyState();
+        }
+
+        applyState();
+
+        // Bind controls
+        const decorSlider = document.getElementById('decor-slider');
+        decorSlider.addEventListener('input', e => persist('decorIntensity', +e.target.value / 100));
+        document.getElementById('accent-chips').addEventListener('click', e => {
+            const chip = e.target.closest('.tw-chip');
+            if (chip) persist('accent', chip.dataset.accent);
+        });
+        document.getElementById('char-chips').addEventListener('click', e => {
+            const chip = e.target.closest('.tw-chip');
+            if (chip) persist('character', chip.dataset.char);
+        });
+        document.getElementById('demo-toggle').addEventListener('click', () => {
+            persist('showDemo', !state.showDemo);
         });
 
-        document.querySelectorAll('[data-reveal]').forEach((el) => observer.observe(el));
-
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    const header = document.querySelector('.site-header');
-                    if (header) header.classList.toggle('scrolled', window.scrollY > 20);
-                    ticking = false;
-                });
-                ticking = true;
+        // Edit mode contract
+        window.addEventListener('message', e => {
+            if (!e.data || typeof e.data !== 'object') return;
+            if (e.data.type === '__activate_edit_mode') {
+                document.getElementById('tweaks-panel').classList.add('open');
+            } else if (e.data.type === '__deactivate_edit_mode') {
+                document.getElementById('tweaks-panel').classList.remove('open');
             }
         });
+        document.getElementById('tw-close').addEventListener('click', () => {
+            document.getElementById('tweaks-panel').classList.remove('open');
+            try {
+                window.parent.postMessage({
+                    type: '__deactivate_edit_mode'
+                }, '*');
+            } catch (_) {}
+        });
+        // Announce availability AFTER listener registered
+        try {
+            window.parent.postMessage({
+                type: '__edit_mode_available'
+            }, '*');
+        } catch (_) {}
     </script>
 </body>
 
