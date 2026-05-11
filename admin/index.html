@@ -638,6 +638,9 @@ input:checked + .slider:before { transform: translateX(20px); }
         <div class="nav-item" onclick="switchTab('settings', this)">
           <span class="nav-icon">⚙️</span> アプリ設定
         </div>
+        <div class="nav-item" onclick="switchTab('banners', this)">
+          <span class="nav-icon">🖼️</span> バナー管理
+        </div>
       </nav>
       <div class="sidebar-footer">
         <div class="user-info">
@@ -797,46 +800,65 @@ input:checked + .slider:before { transform: translateX(20px); }
             </div>
           </div>
 
-          <div class="card">
-            <div class="card-title">バナー管理（今日のおすすめ）</div>
-            <div class="toggle-row">
-              <div>
-                <div class="toggle-label">バナーを表示する</div>
-                <div class="toggle-desc">ONにするとホーム画面にバナーが表示されます</div>
-              </div>
-              <label class="switch">
-                <input type="checkbox" id="banner-visible">
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="form-group">
-              <label>バナー画像 URL</label>
-              <input type="text" id="banner-image-url" placeholder="https://..." oninput="updateBannerPreview(this.value)">
-            </div>
-            <div id="banner-preview-wrap" style="display:none; margin-bottom:16px;">
-              <img id="banner-preview-img" src="" alt="バナープレビュー"
-                style="width:100%; max-height:120px; object-fit:cover; border-radius:8px; border:1px solid var(--border);">
-            </div>
-            <div class="form-group">
-              <label>タップ時リンク URL</label>
-              <input type="text" id="banner-link-url" placeholder="https://...">
-            </div>
-            <div class="form-group">
-              <label>テキスト（説明文）</label>
-              <textarea id="banner-description" rows="3" placeholder="バナーの説明文を入力（任意）" style="width:100%; box-sizing:border-box; resize:vertical;"></textarea>
-            </div>
-            <div style="text-align:right;">
-              <button class="btn btn-primary" onclick="saveBanner()">バナーを保存</button>
-            </div>
-          </div>
-
           <div style="text-align:right;">
             <button class="btn btn-primary" onclick="saveSettings()">設定を保存</button>
           </div>
         </div>
 
+        <!-- ⑤ BANNERS -->
+        <div id="tab-banners" class="tab-content">
+          <div style="display:flex; justify-content:flex-end; margin-bottom:16px;">
+            <button class="btn btn-primary" onclick="openBannerEditor()">＋ バナーを追加</button>
+          </div>
+          <div id="banners-list">
+            <div class="loading"><div class="spinner"></div>読み込み中...</div>
+          </div>
+        </div>
+
       </div>
     </main>
+  </div>
+</div>
+
+<!-- ===== BANNER MODAL ===== -->
+<div class="modal-overlay" id="banner-modal">
+  <div class="modal">
+    <div class="modal-title" id="banner-modal-title">バナーを追加</div>
+    <input type="hidden" id="banner-edit-id">
+
+    <div class="form-group">
+      <label>画像URL *</label>
+      <input type="text" id="be-image-url" placeholder="https://..." oninput="updateBePreview(this.value)">
+      <div id="be-preview-wrap" style="display:none; margin-top:8px;">
+        <img id="be-preview-img" src="" alt="プレビュー"
+          style="width:100%; max-height:120px; object-fit:cover; border-radius:8px; border:1px solid var(--border);">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>タップ時リンクURL（任意）</label>
+      <input type="text" id="be-link-url" placeholder="https://...">
+    </div>
+
+    <div class="form-group">
+      <label>説明文（任意）</label>
+      <textarea id="be-description" rows="3" placeholder="バナーの説明文を入力"></textarea>
+    </div>
+
+    <div class="toggle-row" style="border-bottom:none; padding-top:0;">
+      <div>
+        <div class="toggle-label">ホームに表示する</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="be-visible" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeBannerModal()">キャンセル</button>
+      <button class="btn btn-primary" onclick="saveBannerEntry()">保存する</button>
+    </div>
   </div>
 </div>
 
@@ -913,6 +935,7 @@ const db = getFirestore(app);
 let allUsers = [];
 let confirmCallback = null;
 let unsubAnnouncements = null;
+let unsubBanners = null;
 
 // ===== AUTH =====
 window.signInWithGoogle = async () => {
@@ -923,6 +946,7 @@ window.signInWithGoogle = async () => {
 
 window.signOut = async () => {
   if (unsubAnnouncements) unsubAnnouncements();
+  if (unsubBanners) unsubBanners();
   await fbSignOut(auth);
 };
 
@@ -950,6 +974,7 @@ onAuthStateChanged(auth, async (user) => {
   loadUsers();
   loadAnnouncements();
   loadSettings();
+  loadBanners();
 });
 
 function show(id) {
@@ -965,7 +990,7 @@ window.switchTab = (tab, el) => {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
   el.classList.add('active');
-  const titles = {dashboard:'ダッシュボード', users:'ユーザー管理', announcements:'お知らせ管理', settings:'アプリ設定'};
+  const titles = {dashboard:'ダッシュボード', users:'ユーザー管理', announcements:'お知らせ管理', settings:'アプリ設定', banners:'バナー管理'};
   document.getElementById('page-title').textContent = titles[tab] || '';
 };
 
@@ -1147,46 +1172,111 @@ async function loadSettings() {
       document.getElementById('setting-terms-url').value = s.termsOfServiceUrl || '';
     }
   } catch(e) { console.log('設定読み込みエラー:', e); }
-  loadBanner();
 }
 
-// ===== BANNER =====
-function updateBannerPreview(url) {
-  const wrap = document.getElementById('banner-preview-wrap');
-  const img = document.getElementById('banner-preview-img');
+// ===== BANNERS =====
+function loadBanners() {
+  if (unsubBanners) unsubBanners();
+  const q = query(collection(db, 'banners'), orderBy('createdAt', 'desc'));
+  unsubBanners = onSnapshot(q, snap => {
+    const list = document.getElementById('banners-list');
+    if (snap.empty) {
+      list.innerHTML = '<div class="loading">バナーがありません。「＋ バナーを追加」から追加してください。</div>';
+      return;
+    }
+    list.innerHTML = snap.docs.map(d => {
+      const b = d.data();
+      const date = b.createdAt?.toDate().toLocaleDateString('ja-JP') || '-';
+      const descPreview = b.description ? b.description.substring(0, 80) + (b.description.length > 80 ? '...' : '') : '';
+      return `<div class="announcement-card">
+        ${b.imageUrl ? `<img src="${b.imageUrl}" style="width:80px; height:54px; object-fit:cover; border-radius:8px; flex-shrink:0;" onerror="this.style.display='none'">` : ''}
+        <div class="announcement-body">
+          <div style="display:flex; gap:8px; align-items:center; margin-bottom:6px;">
+            <span class="badge ${b.isVisible ? 'badge-success' : 'badge-draft'}">${b.isVisible ? '表示中' : '非表示'}</span>
+            <span style="font-size:0.75rem; color:var(--text-light);">${date}</span>
+          </div>
+          ${descPreview ? `<div class="announcement-preview">${descPreview}</div>` : ''}
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; flex-shrink:0;">
+          <button class="btn btn-outline btn-sm" onclick='editBannerEntry(${JSON.stringify({id:d.id, imageUrl:b.imageUrl||'', linkUrl:b.linkUrl||'', description:b.description||'', isVisible:!!b.isVisible})})'>編集</button>
+          <button class="btn btn-sm ${b.isVisible ? 'btn-outline' : 'btn-primary'}"
+            onclick="toggleBannerVisible('${d.id}', ${!b.isVisible})">
+            ${b.isVisible ? '非表示に' : '表示する'}
+          </button>
+          <button class="btn btn-danger btn-sm" onclick="deleteBannerEntry('${d.id}')">削除</button>
+        </div>
+      </div>`;
+    }).join('');
+  }, e => {
+    document.getElementById('banners-list').innerHTML = `<div style="color:var(--danger)">読み込み失敗: ${e.message}</div>`;
+  });
+}
+
+window.openBannerEditor = () => {
+  document.getElementById('banner-edit-id').value = '';
+  document.getElementById('be-image-url').value = '';
+  document.getElementById('be-link-url').value = '';
+  document.getElementById('be-description').value = '';
+  document.getElementById('be-visible').checked = true;
+  document.getElementById('be-preview-wrap').style.display = 'none';
+  document.getElementById('banner-modal-title').textContent = 'バナーを追加';
+  document.getElementById('banner-modal').classList.add('open');
+};
+
+window.editBannerEntry = (b) => {
+  document.getElementById('banner-edit-id').value = b.id;
+  document.getElementById('be-image-url').value = b.imageUrl || '';
+  document.getElementById('be-link-url').value = b.linkUrl || '';
+  document.getElementById('be-description').value = b.description || '';
+  document.getElementById('be-visible').checked = b.isVisible !== false;
+  updateBePreview(b.imageUrl);
+  document.getElementById('banner-modal-title').textContent = 'バナーを編集';
+  document.getElementById('banner-modal').classList.add('open');
+};
+
+window.closeBannerModal = () => {
+  document.getElementById('banner-modal').classList.remove('open');
+};
+
+window.updateBePreview = (url) => {
+  const wrap = document.getElementById('be-preview-wrap');
+  const img = document.getElementById('be-preview-img');
   if (url && url.trim()) {
     img.src = url.trim();
     wrap.style.display = 'block';
   } else {
     wrap.style.display = 'none';
   }
-}
+};
 
-async function loadBanner() {
+window.saveBannerEntry = async () => {
+  const id = document.getElementById('banner-edit-id').value;
+  const imageUrl = document.getElementById('be-image-url').value.trim();
+  if (!imageUrl) { alert('画像URLを入力してください'); return; }
+  const data = {
+    imageUrl,
+    linkUrl: document.getElementById('be-link-url').value.trim(),
+    description: document.getElementById('be-description').value.trim(),
+    isVisible: document.getElementById('be-visible').checked,
+  };
   try {
-    const snap = await getDoc(doc(db, 'admin_config', 'banner'));
-    if (snap.exists()) {
-      const b = snap.data();
-      document.getElementById('banner-visible').checked = b.isVisible || false;
-      document.getElementById('banner-image-url').value = b.imageUrl || '';
-      document.getElementById('banner-link-url').value = b.linkUrl || '';
-      document.getElementById('banner-description').value = b.description || '';
-      updateBannerPreview(b.imageUrl);
+    if (id) {
+      await updateDoc(doc(db, 'banners', id), data);
+    } else {
+      await addDoc(collection(db, 'banners'), { ...data, createdAt: serverTimestamp() });
     }
-  } catch(e) { console.log('バナー読み込みエラー:', e); }
-}
-
-window.saveBanner = async () => {
-  try {
-    await setDoc(doc(db, 'admin_config', 'banner'), {
-      isVisible: document.getElementById('banner-visible').checked,
-      imageUrl: document.getElementById('banner-image-url').value,
-      linkUrl: document.getElementById('banner-link-url').value,
-      description: document.getElementById('banner-description').value,
-      updatedAt: serverTimestamp()
-    });
-    alert('バナーを保存しました');
+    closeBannerModal();
   } catch(e) { alert('保存失敗: ' + e.message); }
+};
+
+window.toggleBannerVisible = async (id, isVisible) => {
+  await updateDoc(doc(db, 'banners', id), { isVisible });
+};
+
+window.deleteBannerEntry = (id) => {
+  showConfirm('バナーを削除しますか？', 'このバナーを削除します。この操作は元に戻せません。', async () => {
+    await deleteDoc(doc(db, 'banners', id));
+  });
 };
 
 window.saveSettings = async () => {
