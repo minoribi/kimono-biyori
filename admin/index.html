@@ -827,7 +827,21 @@ input:checked + .slider:before { transform: translateX(20px); }
     <input type="hidden" id="banner-edit-id">
 
     <div class="form-group">
-      <label>画像URL *</label>
+      <label>バナー画像</label>
+      <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+        <label for="be-image-file" style="margin:0;">
+          <span class="btn btn-outline btn-sm" style="cursor:pointer;">📁 ファイルを選択</span>
+        </label>
+        <span id="be-file-name" style="font-size:0.82rem; color:var(--text-light);">未選択</span>
+      </div>
+      <input type="file" id="be-image-file" accept="image/*" style="display:none;" onchange="onBannerFileSelected(this)">
+      <div id="be-upload-progress" style="display:none; margin-bottom:8px;">
+        <div style="background:var(--border); border-radius:4px; height:6px; overflow:hidden;">
+          <div id="be-progress-bar" style="background:var(--indigo); height:100%; width:0%; transition:width 0.2s;"></div>
+        </div>
+        <div id="be-progress-text" style="font-size:0.75rem; color:var(--text-light); margin-top:4px;">アップロード中...</div>
+      </div>
+      <label style="font-size:0.78rem; color:var(--text-light); font-weight:400; margin-bottom:4px;">または画像URLを直接入力</label>
       <input type="text" id="be-image-url" placeholder="https://..." oninput="updateBePreview(this.value)">
       <div id="be-preview-wrap" style="display:none; margin-top:8px;">
         <img id="be-preview-img" src="" alt="プレビュー"
@@ -917,6 +931,8 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onA
 import { getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc,
   deleteDoc, query, orderBy, limit, onSnapshot, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyA_f4sL7ktyCBbmJhM9yzSnF6yjKj_dpws",
@@ -931,6 +947,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 let allUsers = [];
 let confirmCallback = null;
@@ -1212,6 +1229,41 @@ function loadBanners() {
   });
 }
 
+window.onBannerFileSelected = (input) => {
+  const file = input.files[0];
+  if (!file) return;
+  document.getElementById('be-file-name').textContent = file.name;
+
+  // アップロード開始
+  const path = `banners/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+  const storageRef = ref(storage, path);
+  const task = uploadBytesResumable(storageRef, file);
+
+  const progressWrap = document.getElementById('be-upload-progress');
+  const progressBar = document.getElementById('be-progress-bar');
+  const progressText = document.getElementById('be-progress-text');
+  progressWrap.style.display = 'block';
+
+  task.on('state_changed',
+    (snapshot) => {
+      const pct = Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100);
+      progressBar.style.width = pct + '%';
+      progressText.textContent = `アップロード中... ${pct}%`;
+    },
+    (error) => {
+      progressText.textContent = 'アップロード失敗: ' + error.message;
+      progressBar.style.background = 'var(--danger)';
+    },
+    async () => {
+      const url = await getDownloadURL(task.snapshot.ref);
+      document.getElementById('be-image-url').value = url;
+      progressText.textContent = 'アップロード完了 ✓';
+      progressBar.style.background = 'var(--success)';
+      updateBePreview(url);
+    }
+  );
+};
+
 window.openBannerEditor = () => {
   document.getElementById('banner-edit-id').value = '';
   document.getElementById('be-image-url').value = '';
@@ -1219,6 +1271,11 @@ window.openBannerEditor = () => {
   document.getElementById('be-description').value = '';
   document.getElementById('be-visible').checked = true;
   document.getElementById('be-preview-wrap').style.display = 'none';
+  document.getElementById('be-upload-progress').style.display = 'none';
+  document.getElementById('be-file-name').textContent = '未選択';
+  document.getElementById('be-image-file').value = '';
+  document.getElementById('be-progress-bar').style.width = '0%';
+  document.getElementById('be-progress-bar').style.background = 'var(--indigo)';
   document.getElementById('banner-modal-title').textContent = 'バナーを追加';
   document.getElementById('banner-modal').classList.add('open');
 };
@@ -1229,6 +1286,11 @@ window.editBannerEntry = (b) => {
   document.getElementById('be-link-url').value = b.linkUrl || '';
   document.getElementById('be-description').value = b.description || '';
   document.getElementById('be-visible').checked = b.isVisible !== false;
+  document.getElementById('be-upload-progress').style.display = 'none';
+  document.getElementById('be-file-name').textContent = '未選択';
+  document.getElementById('be-image-file').value = '';
+  document.getElementById('be-progress-bar').style.width = '0%';
+  document.getElementById('be-progress-bar').style.background = 'var(--indigo)';
   updateBePreview(b.imageUrl);
   document.getElementById('banner-modal-title').textContent = 'バナーを編集';
   document.getElementById('banner-modal').classList.add('open');
